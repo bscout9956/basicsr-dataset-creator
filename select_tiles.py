@@ -9,11 +9,12 @@ from math import floor
 
 slash = "\\" if name == 'nt' else "/"
 
-# Folders
+# Percentages
 
-tile_percentage = 50 # TODO
-val_percentage = 1
+val_percentage = 10
 train_percentage = 99
+
+# Folders
 
 input_dir = "." + slash + "output"
 output_dir = "." + slash + "datasets"
@@ -52,8 +53,8 @@ def main():
     file_count = check_file_count(input_dir)
     index_main = 0
     index_shift = 0
-    shift_count = int((val_percentage / 100) * file_count)   
-    shifted_images = []    
+    shift_count = int((val_percentage / 100) * file_count)
+    shifted_images = []  
     directory_list = [output_dir, val_lr_output_dir, val_hr_output_dir, train_lr_output_dir, train_hr_output_dir]
     for directory in directory_list:
         if not path.isdir(directory):
