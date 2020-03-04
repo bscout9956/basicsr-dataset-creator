@@ -1,6 +1,12 @@
 # Image-Tiler
 A set of scripts that split images into squares for BasicSR model training.
 
+## Initial Observations:
+  - This works best on square images, but it also works for rectangular ones.
+    - Caveat: It will crop some of it on the right. Shouldn't matter too much...
+  - If you see *- ../path* that just represents that what your path may be before the slash. 
+    - It will vary depending on where you put the clones of each repo.
+
 ## Requirements:
   - An NVIDIA GPU + CUDA 9 or 10 installed: https://developer.nvidia.com/cuda-toolkit
   - Python 3.7 or newer (64-bits): https://www.python.org/downloads/
@@ -10,7 +16,7 @@ A set of scripts that split images into squares for BasicSR model training.
       - PHOENiX's: https://github.com/rlaPHOENiX/BasicSR
       - xinntao: https://github.com/xinntao/BasicSR
   - PyTorch for Python 3 according to your environment of choice: https://pytorch.org/
-  - Python packages: `pip install numpy opencv-python lmdb pyyaml tensorboard` 
+  - Python packages: `pip install numpy opencv-python lmdb pyyaml tensorboard pillow` 
     - You may need to use `pip3` instead...
   - **Linux users refer to the package manager and settings in your distro**.
     - CUDA usually comes with the driver, and the proprietary one is preferred.
@@ -58,7 +64,6 @@ A set of scripts that split images into squares for BasicSR model training.
   
 ## Observations and Troubleshooting:
   - **You may submit Pull Requests as my code can be pretty wonky.**
-  - ../path just represents that whatever is before the / is unknown to me and varies wherever you put the clones of each repo.
   - It's mandatory to use Python 3 64-Bits so you can install PyTorch. It won't run on 32-Bit machines nor Python 2.
   - If you cannot run PyTorch or install, reinstall Python 3 and all the needed packages.
   - The HR tiles resolution, LR tiles resolution and scale must relate to each other:
