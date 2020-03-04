@@ -32,6 +32,7 @@ A set of scripts that split images into squares for BasicSR model training.
     `python prepareDataset.py`
       - You may need to use python3 instead...
       - You may also want to open the script in a software like Notepad++ to edit its settings...
+      - **I strongly recommend checking the percentages inside select_tiles.py**
   7. Check for the results inside the datasets folder once the script finishes running...
   8. Go to the root of your clone BasicSR folder
   9. Head to ../BasicSR/codes/options/train/
@@ -97,8 +98,15 @@ A set of scripts that split images into squares for BasicSR model training.
       
 ## Thanks...
   - To everyone in the Game-Upscale Discord Server which have instigated a great interest in me training my own models and writing this solution.
-  - DeOrder's scripts, since they were the main inspiration for doing this. 
+  - DeOrder's "Texture-Upscaler" scripts, since they were the main inspiration for doing this. 
     - I wanted something that would perform faster with less reliance on external software (ImageMagick).
       - Now it's just silly python libs, not any better if you think about it...
     - His scripts were also a bit outdated and I had a hard time finding an alternative that had similar features and was solely focused on training.
   - The original creators of ESRGAN and BasicSR and "forkers".
+  
+# WIP:
+  - Have a choice for the percentage of the output tiles.
+  - Add toggles to the scripts...
+    - i.e: --input-directory=./here
+  - Fix potential bugs...
+  - Comment some of the code more?
