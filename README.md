@@ -12,6 +12,7 @@ A set of scripts that split images into squares for BasicSR model training.
   - PyTorch for Python 3 according to your environment of choice: https://pytorch.org/
   - Python packages: `pip install numpy opencv-python lmdb pyyaml tensorboard` 
     - You may need to use `pip3` instead...
+  - **Linux users refer to the package manager and settings in your distro**.
   
 ## Instructions for installing and training BasicSR:
   1. Install the requirements
@@ -66,6 +67,7 @@ A set of scripts that split images into squares for BasicSR model training.
     - Close applications that may be using your GPU VRAM.
     - Lower the batch_size, it may cause training to be slower however.
     - Lower the HR resolution **dataset change required**.
+    - Other solutions for advanced users below.    
   - Training 1x Models are possible but only on the old arch.
   - Dataset Name and Validation Name in the YML are irrelevant.
   - PSNR is good when higher (~25-30). LPIPS is good when lower (<0.1~). SSIM is good when higher. (depends) 
@@ -73,3 +75,9 @@ A set of scripts that split images into squares for BasicSR model training.
   - There is also a wiki with additional steps, help and a model database: https://upscale.wiki/wiki/Main_Page
   - Feel free to submit bug reports, however I can't guarantee anyone an immediate fix or answer.
   - You'll be better off looking for help on that wiki or in the Discord Server. 
+  ### Advanced Users Only:
+  - **I don't take responsibility for any damage, loss, corruption of files, explosion or whatever possible for the following instructions.**
+    - If you're on Linux, **log off**, go to a TTY (Ctrl+Alt+F2-?F12?). 
+    - Log-in, check with NVIDIA-SMI which applications are using VRAM... 
+    - You may want to kill or stop the Display Manager. *This can be reverted by starting it again* and run the script from there.
+    - SSH is great for remote management of model training. Just make sure to use (RSA or better) keyrings and not passwords ;)
