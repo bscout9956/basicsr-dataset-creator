@@ -18,7 +18,7 @@ output_folder = "." + slash + "output"
 
 # Tile Settings
 
-scale = 2
+scale = 4
 hr_size = 128
 lr_size = int(hr_size / scale)
 random_lr_scaling = False
