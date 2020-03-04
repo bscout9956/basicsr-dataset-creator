@@ -13,6 +13,7 @@ A set of scripts that split images into squares for BasicSR model training.
   - Python packages: `pip install numpy opencv-python lmdb pyyaml tensorboard` 
     - You may need to use `pip3` instead...
   - **Linux users refer to the package manager and settings in your distro**.
+    - CUDA usually comes with the driver, and the proprietary one is preferred.
   
 ## Instructions for installing and training BasicSR:
   1. Install the requirements
@@ -78,6 +79,6 @@ A set of scripts that split images into squares for BasicSR model training.
   ### Advanced Users Only:
   - **I don't take responsibility for any damage, loss, corruption of files, explosion or whatever possible for the following instructions.**
     - If you're on Linux, **log off**, go to a TTY (Ctrl+Alt+F2-?F12?). 
-    - Log-in, check with NVIDIA-SMI which applications are using VRAM... 
+    - Log-in, check with `nvidia-smi` *if installed* which applications are using VRAM... 
     - You may want to kill or stop the Display Manager. *This can be reverted by starting it again* and run the script from there.
     - SSH is great for remote management of model training. Just make sure to use (RSA or better) keyrings and not passwords ;)
