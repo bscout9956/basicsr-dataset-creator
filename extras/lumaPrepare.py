@@ -25,7 +25,7 @@ def get_radius_average():
 
 def get_random_radius(a, b):
     global radius_count, radius_sum
-    # random.seed(time.time_ns())
+    random.seed(time.time_ns())
     radius = random.uniform(a, b)
     radius_count += 1
     radius_sum += radius
@@ -75,8 +75,8 @@ def process(input_folder):
 
 
 def main():
-    process("..{}output_training{}lr".format(slash, slash))
-    process("..{}output_validation{}lr".format(slash, slash))
+    process("..{}datasets{}train{}lr".format(slash, slash, slash))
+    process("..{}datasets{}val{}lr".format(slash, slash, slash))
 
 
 if __name__ == "__main__":
