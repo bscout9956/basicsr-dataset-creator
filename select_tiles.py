@@ -1,7 +1,6 @@
 from os import walk, path, makedirs, listdir, name, strerror
 from shutil import copyfile, move
 from random import choice
-from math import floor
 import errno
 
 # Helper Variable
@@ -80,8 +79,8 @@ def main():
                     print("Shifting tile {} out of {}...".format(index_shift + 1,
                                                                  shift_count))
                     shifted_images.append(random_file)
-                    shift_train(random_file, root.format(slash, random_file))
-                    shift_train(random_file, root.replace("hr", "lr").format(slash, random_file))
+                    shift_train(random_file, root + slash + random_file)
+                    shift_train(random_file, root.replace("hr", "lr") + slash + random_file)
                     index_shift += 1
 
 
