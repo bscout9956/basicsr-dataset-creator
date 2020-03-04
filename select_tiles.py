@@ -34,7 +34,7 @@ def copy_image(image_name, image_path):
     if "lr" in image_path:
         copyfile(image_path, train_lr_output_dir + slash + image_name)
     elif "hr" in image_path:
-        copyfile(image_path, train_hr_output_dir + slash + image_name)      
+        copyfile(image_path, train_hr_output_dir + slash + image_name)
     else:
         print("No HR, LR? They are case sensitive on GNU/Linux")
         raise FileNotFoundError(errno.ENOENT, strerror(errno.ENOENT), image_path)
@@ -49,25 +49,25 @@ def shift_train(image_name, image_path):
         raise FileNotFoundError(errno.ENOENT, strerror(errno.ENOENT), image_path)
 
 
-def main():    
+def main():
     file_count = check_file_count(input_dir)
     index_main = 0
     index_shift = 0
     shift_count = int((val_percentage / 100) * file_count)
-    shifted_images = []  
+    shifted_images = []
     directory_list = [output_dir, val_lr_output_dir, val_hr_output_dir, train_lr_output_dir, train_hr_output_dir]
     for directory in directory_list:
         if not path.isdir(directory):
             print("{} does not exist. Creating...".format(directory))
             makedirs(directory)
-    
+
     for root, dirs, files in walk(input_dir):
         for filename in files:
             if filename.endswith("jpg") or filename.endswith("dds") or filename.endswith("png"):
                 print("Copying training tile {} of {}...".format(index_main+1, file_count))
                 copy_image(filename, root + slash + filename)
                 index_main += 1
-                
+
     for root, dirs, files in walk(output_dir):
         if "hr" in root and "train" in root:
             while index_shift < shift_count:
