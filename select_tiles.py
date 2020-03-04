@@ -11,7 +11,7 @@ slash = "\\" if name == 'nt' else "/"
 # Percentages
 
 val_percentage = 10
-train_percentage = 99
+train_percentage = 90
 
 # Folders
 
