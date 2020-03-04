@@ -3,8 +3,6 @@ from PIL import ImageFilter
 import os
 import random
 import time
-from pycallgraph import PyCallGraph
-from pycallgraph.output import GraphvizOutput
 
 slash = "\\" if os.name == 'nt' else "/"
 
@@ -21,7 +19,7 @@ def get_radius_average():
 
 def get_random_radius():
     global radius_count, radius_sum
-    # random.seed(time.time_ns())
+    random.seed(time.time_ns())
     radius = random.uniform(0, 10)
     radius_count += 1
     radius_sum += radius
@@ -38,7 +36,7 @@ def check_file_count(input_folder):
 
 def get_random_blur_type():
     global gauss_count, box_count
-    # random.seed(time.time_ns())
+    random.seed(time.time_ns())
     blur_types = ["gaussian", "box"]
     choice = random.choice(blur_types)
     if choice == "gaussian":
@@ -85,12 +83,8 @@ def process(input_folder):
 
 
 def main():
-    graphviz = GraphvizOutput()
-    graphviz.output_file = 'basic.png'
-
-    with PyCallGraph(output=graphviz):
-        process("..{}output_training{}lr".format(slash, slash))
-        process("..{}output_validation{}lr".format(slash, slash))
+    process("..{}datasets{}train{}lr".format(slash, slash, slash))
+    process("..{}datasets{}val{}lr".format(slash, slash, slash))
 
 
 if __name__ == "__main__":
