@@ -81,8 +81,11 @@ A set of scripts that split images into squares for BasicSR model training.
   - Feel free to submit bug reports, however I can't guarantee anyone an immediate fix or answer.
   - You'll be better off looking for help on that wiki or in the Discord Server. 
   ### Advanced Users Only:
-  - **I don't take responsibility for any damage, loss, corruption of files, explosion or whatever possible for the following instructions.**
-    - If you're on Linux, **log off**, go to a TTY (Ctrl+Alt+F2-?F12?). 
-    - Log-in, check with `nvidia-smi` *if installed* which applications are using VRAM... 
-    - You may want to kill or stop the Display Manager. *This can be reverted by starting it again* and run the script from there.
-    - SSH is great for remote management of model training. Just make sure to use (RSA or better) keyrings and not passwords ;)
+  - **I don't take responsibility for any damage, loss, corruption of files, explosion or whatever possible for following theseinstructions.**
+    1. If you're low on memory, try this:
+      - If you're on Linux, **log off**, go to a TTY (Ctrl+Alt+F2-?F12?). 
+      - Log-in, check with `nvidia-smi` *if installed* which applications are using VRAM... 
+      - You may want to kill or stop the Display Manager. *This can be reverted by starting it again* and run the script from there.
+      - SSH is great for remote management of model training. Just make sure to use (RSA or better) keyrings and not passwords ;)
+    2. You can find additional scripts in the extras folder, they have been used by me for some of the models I've trained.
+      - I guarantee nothing about them working and the code is terrible.
