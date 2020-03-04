@@ -17,7 +17,7 @@ train_percentage = 99
 
 input_dir = ".{}output".format("slash")
 output_dir = ".{}datasets".format("slash")
-val_hr_output_dir = "{}{}val{}lr".format(output_dir, slash, slash)
+val_lr_output_dir = "{}{}val{}lr".format(output_dir, slash, slash)
 val_hr_output_dir = val_lr_output_dir.replace("lr", "hr")
 train_lr_output_dir = val_lr_output_dir.replace("val", "train")
 train_hr_output_dir = val_hr_output_dir.replace("val", "train")
