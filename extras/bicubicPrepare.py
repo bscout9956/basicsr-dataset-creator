@@ -67,8 +67,8 @@ def process(input_folder):
 
 
 def main():
-    process("..{}datasets{}train{}lr".format(slash, slash))
-    process("..{}datasets{}val{}lr".format(slash, slash))
+    process("..{}datasets{}train{}lr".format(slash, slash, slash))
+    process("..{}datasets{}val{}lr".format(slash, slash, slash))
 
 
 if __name__ == "__main__":
