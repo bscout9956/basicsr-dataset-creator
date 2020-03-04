@@ -22,8 +22,17 @@ scale = 4
 hr_size = 128
 lr_size = int(hr_size / scale)
 random_lr_scaling = False
-lr_scaling = 4  # Use Image.NEAREST (0), Image.LANCZOS (1), Image.BILINEAR (2), Image.BICUBIC (3), Image.BOX (4) or
-                # Image.HAMMING (5)
+lr_scaling = 4
+
+"""
+ Use: 
+ Image.NEAREST (0)
+ Image.LANCZOS (1)
+ Image.BILINEAR (2)
+ Image.BICUBIC (3)
+ Image.BOX (4) or 
+ Image.HAMMING (5)
+"""
 
 
 def get_random_number(start, end):
@@ -32,9 +41,9 @@ def get_random_number(start, end):
     return random.randint(start, end)
 
 
-def check_file_count(ifolder):
+def check_file_count(in_folder):
     file_count = 0
-    for root, dirs, files in walk(ifolder):
+    for root, dirs, files in walk(in_folder):
         file_count += len(files)
     return file_count
 
@@ -51,7 +60,7 @@ def get_filter():
 
 
 def process_image(image, filename):
-    filter = get_filter
+    scale_filter = get_filter
     output_dir = output_folder + slash
     lr_output_dir = output_dir + "lr"
     hr_output_dir = output_dir + "hr"
@@ -66,7 +75,7 @@ def process_image(image, filename):
         for i in range(v_divs):
             for j in range(h_divs):
                 image_copy = image.crop((hr_size * j, hr_size * i, hr_size * (j + 1), hr_size * (i + 1)))
-                image_lr = image_copy.resize((lr_size, lr_size), filter())
+                image_lr = image_copy.resize((lr_size, lr_size), scale_filter())
                 image_hr = image_copy
                 image_lr.save(lr_output_dir + slash + filename + "tile_0{}{}".format(i, j) + ".png", "PNG",
                               icc_profile='')

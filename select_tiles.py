@@ -23,11 +23,12 @@ train_lr_output_dir = val_lr_output_dir.replace("val", "train")
 train_hr_output_dir = val_hr_output_dir.replace("val", "train")
 
 
-def check_file_count(dir):
+def check_file_count(directory):
     file_count = 0
-    for root, dirs, files in walk(dir):
+    for root, dirs, files in walk(directory):
         file_count += len(files)
     return file_count
+
 
 def copy_image(image_name, image_path):
     if "lr" in image_path:
@@ -36,7 +37,8 @@ def copy_image(image_name, image_path):
         copyfile(image_path, train_hr_output_dir + slash + image_name)
     else:
         print("No HR, LR? They are case sensitive on GNU/Linux")
-        raise FileNotFoundError(errno.ENOENT, strerror(errno.ENOENT), image_path)
+        raise FileNotFoundError(errno.ENOENT, strerror(errno.ENOENT),
+                                image_path)
 
 
 def shift_train(image_name, image_path):
@@ -46,7 +48,8 @@ def shift_train(image_name, image_path):
         move(image_path, val_hr_output_dir + slash + image_name)
     else:
         print("No HR, LR, no train, val? They are case sensitive on GNU/Linux")
-        raise FileNotFoundError(errno.ENOENT, strerror(errno.ENOENT), image_path)
+        raise FileNotFoundError(errno.ENOENT, strerror(errno.ENOENT),
+                                image_path)
 
 
 def main():
@@ -55,7 +58,8 @@ def main():
     index_shift = 0
     shift_count = int((val_percentage / 100) * file_count)
     shifted_images = []
-    directory_list = [output_dir, val_lr_output_dir, val_hr_output_dir, train_lr_output_dir, train_hr_output_dir]
+    directory_list = [output_dir, val_lr_output_dir, val_hr_output_dir,
+                      train_lr_output_dir, train_hr_output_dir]
     for directory in directory_list:
         if not path.isdir(directory):
             print("{} does not exist. Creating...".format(directory))
@@ -64,7 +68,7 @@ def main():
     for root, dirs, files in walk(input_dir):
         for filename in files:
             if filename.endswith("jpg") or filename.endswith("dds") or filename.endswith("png"):
-                print("Copying training tile {} of {}...".format(index_main+1, file_count))
+                print("Copying training tile {} of {}...".format(index_main + 1, file_count))
                 copy_image(filename, root + slash + filename)
                 index_main += 1
 
@@ -73,11 +77,12 @@ def main():
             while index_shift < shift_count:
                 random_file = choice(listdir(root))
                 if random_file not in shifted_images:
-                    print("Shifting tile {} out of {}...".format(index_shift+1, shift_count))
+                    print("Shifting tile {} out of {}...".format(index_shift + 1,
+                                                                 shift_count))
                     shifted_images.append(random_file)
-                    shift_train(random_file, root + slash + random_file)
-                    shift_train(random_file, root.replace("hr", "lr") + slash + random_file)
-                    index_shift+=1
+                    shift_train(random_file, root.format(slash, random_file))
+                    shift_train(random_file, root.replace("hr", "lr").format(slash, random_file))
+                    index_shift += 1
 
 
 if __name__ == "__main__":
