@@ -43,9 +43,12 @@ A set of scripts that split images into squares for BasicSR model training.
       - Under the train tree you can set some additional weights, I recommend uncommenting LPIPS on Phoenix's fork.
         - You may also change the validation frequency, it's in scientific notation. 1e3 = 1000 iters.
       - Under the logger tree you can change the tensorboard logger parameters or disable it
-  10. After you are done with your YML file, open CMD or Terminal and make sure the root path is BasicSR.
-      - You can do that on both Linux and Windows by copying the path to the folder and doing:
-        `cd ..\BasicSR\codes` (Windows) or cd `../BasicSR/codes` (Linux, **Case-Sensitive**)
+  10. After you are done with your YML file: 
+      - Copy the datasets folder from the root of your image-tiler folder to the root of your BasicSR clone
+        - i.e: ../image-tiler/datasets to ../BasicSR/datasets
+      - Open CMD or Terminal and make sure the root path is BasicSR.  
+        - You can do that on both Linux and Windows by copying the path to the folder and doing:
+          `cd ..\BasicSR\codes` (Windows) or cd `../BasicSR/codes` (Linux, **Case-Sensitive**)
       - Run `python train.py -opt options\train\yourymlfilehere.yml`
       - In Linux, forward-slashes and maybe python3, your environment dictates.
   11. If everything goes right, your model will begin training and it should take some time (6h~) until it generates proper results.
@@ -55,6 +58,7 @@ A set of scripts that split images into squares for BasicSR model training.
   
 ## Observations and Troubleshooting:
   - **You may submit Pull Requests as my code can be pretty wonky.**
+  - ../path just represents that whatever is before the / is unknown to me and varies wherever you put the clones of each repo.
   - It's mandatory to use Python 3 64-Bits so you can install PyTorch. It won't run on 32-Bit machines nor Python 2.
   - If you cannot run PyTorch or install, reinstall Python 3 and all the needed packages.
   - The HR tiles resolution, LR tiles resolution and scale must relate to each other:
