@@ -1,9 +1,8 @@
 from os import walk, path, makedirs, listdir, name, strerror
 from shutil import copyfile, move
-import random
-import time
-import errno
+from random import choice
 from math import floor
+import errno
 
 # Helper Variable
 
@@ -16,19 +15,19 @@ train_percentage = 99
 
 # Folders
 
-input_dir = "." + slash + "output"
-output_dir = "." + slash + "datasets"
-val_lr_output_dir = output_dir + slash + "val" + slash + "lr"
-val_hr_output_dir = val_lr_output_dir.rstrip("lr") + "hr"
+input_dir = ".{}output".format("slash")
+output_dir = ".{}datasets".format("slash")
+val_hr_output_dir = "{}{}val{}lr".format(output_dir, slash, slash)
+val_hr_output_dir = val_lr_output_dir.replace("lr", "hr")
 train_lr_output_dir = val_lr_output_dir.replace("val", "train")
 train_hr_output_dir = val_hr_output_dir.replace("val", "train")
+
 
 def check_file_count(dir):
     file_count = 0
     for root, dirs, files in walk(dir):
         file_count += len(files)
     return file_count
-
 
 def copy_image(image_name, image_path):
     if "lr" in image_path:
@@ -38,6 +37,7 @@ def copy_image(image_name, image_path):
     else:
         print("No HR, LR? They are case sensitive on GNU/Linux")
         raise FileNotFoundError(errno.ENOENT, strerror(errno.ENOENT), image_path)
+
 
 def shift_train(image_name, image_path):
     if "train" in image_path and "lr" in image_path:
@@ -71,7 +71,7 @@ def main():
     for root, dirs, files in walk(output_dir):
         if "hr" in root and "train" in root:
             while index_shift < shift_count:
-                random_file = random.choice(listdir(root))
+                random_file = choice(listdir(root))
                 if random_file not in shifted_images:
                     print("Shifting tile {} out of {}...".format(index_shift+1, shift_count))
                     shifted_images.append(random_file)
