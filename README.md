@@ -71,7 +71,7 @@ A set of scripts that split images into squares for BasicSR model training.
     - Other solutions for advanced users below.    
   - Training 1x Models are possible but only on the old arch.
   - Dataset Name and Validation Name in the YML are irrelevant.
-  - PSNR is good when higher (~25-30). LPIPS is good when lower (<0.1~). SSIM is good when higher. (depends) 
+  - PSNR is good when higher (25-30 avg). LPIPS is good when lower (<0.1 avg). SSIM is good when higher. (depends) 
   - You can find additional help on Reddit at https://www.reddit.com/r/GameUpscale/ and its Discord Server (I'm there ;)).
   - There is also a wiki with additional steps, help and a model database: https://upscale.wiki/wiki/Main_Page
   - Feel free to submit bug reports, however I can't guarantee anyone an immediate fix or answer.
