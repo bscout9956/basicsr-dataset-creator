@@ -6,6 +6,7 @@ A set of scripts that split images into squares for BasicSR model training.
     - Caveat: It will crop some of it on the right. Shouldn't matter too much...
   - If you see *../path* that just represents what your path may be before the slash. 
     - It will vary depending on where you put the clones of each repo.
+  - If you are not satisfied with the results of the dataset train/val ratio you can delete the datasets folder and run select_tiles again with different percentages.
 
 ## Requirements:
   - An NVIDIA GPU + CUDA 9 or 10 installed: https://developer.nvidia.com/cuda-toolkit
