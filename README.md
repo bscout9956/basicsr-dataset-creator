@@ -4,7 +4,7 @@ A set of scripts that split images into squares for BasicSR model training.
 ## Initial Observations:
   - This works best on square images, but it also works for rectangular ones.
     - Caveat: It will crop some of it on the right. Shouldn't matter too much...
-  - If you see *- ../path* that just represents that what your path may be before the slash. 
+  - If you see *../path* that just represents what your path may be before the slash. 
     - It will vary depending on where you put the clones of each repo.
 
 ## Requirements:
@@ -94,3 +94,11 @@ A set of scripts that split images into squares for BasicSR model training.
       - SSH is great for remote management of model training. Just make sure to use (RSA or better) keyrings and not passwords ;)
     2. You can find additional scripts in the extras folder, they have been used by me for some of the models I've trained.
       - I guarantee nothing about them working and the code is terrible.
+      
+## Thanks...
+  - To everyone in the Game-Upscale Discord Server which have instigated a great interest in me training my own models and writing this solution.
+  - DeOrder's scripts, since they were the main inspiration for doing this. 
+    - I wanted something that would perform faster with less reliance on external software (ImageMagick).
+      - Now it's just silly python libs, not any better if you think about it...
+    - His scripts were also a bit outdated and I had a hard time finding an alternative that had similar features and was solely focused on training.
+  - The original creators of ESRGAN and BasicSR and "forkers".
