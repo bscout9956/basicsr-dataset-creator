@@ -1,0 +1,1 @@
+Cleanup will wipe everything but the input. Too lazy to fit into README.md.
