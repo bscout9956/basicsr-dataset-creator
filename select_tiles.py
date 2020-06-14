@@ -2,15 +2,11 @@ from os import walk, path, makedirs, listdir, name, strerror
 from shutil import copyfile, move
 from random import choice
 import errno
+import random
 
 # Helper Variable
 
 slash = "\\" if name == 'nt' else "/"
-
-# Percentages
-
-val_percentage = 10
-train_percentage = 90
 
 # Folders
 
@@ -55,7 +51,7 @@ def main():
     file_count = check_file_count(input_dir)
     index_main = 0
     index_shift = 0
-    shift_count = int((val_percentage / 100) * file_count)
+    shift_count = random.randint(80,140) # Ideally you want around 100 or so
     shifted_images = []
     directory_list = [output_dir, val_lr_output_dir, val_hr_output_dir,
                       train_lr_output_dir, train_hr_output_dir]
