@@ -20,7 +20,7 @@ output_folder = "." + slash + "output"
 
 scale = 4
 hr_size = 128
-lr_size = int(hr_size / scale)
+lr_size = int(hr_size / scale) # Don't you dare to put 0.
 random_lr_scaling = False
 lr_scaling = 4
 
@@ -75,7 +75,10 @@ def process_image(image, filename):
         for i in range(v_divs):
             for j in range(h_divs):
                 image_copy = image.crop((hr_size * j, hr_size * i, hr_size * (j + 1), hr_size * (i + 1)))
-                image_lr = image_copy.resize((lr_size, lr_size), scale_filter())
+                if scale != 1:
+                    image_lr = image_copy.resize((lr_size, lr_size), scale_filter())
+                else:
+                    image_lr = image_copy
                 image_hr = image_copy
                 image_lr.save(lr_output_dir + slash + filename + "tile_0{}{}".format(i, j) + ".png", "PNG",
                               icc_profile='')
