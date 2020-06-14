@@ -61,7 +61,9 @@ A set of scripts that split images into squares for BasicSR model training.
       - In Linux, forward-slashes and maybe python3, your environment dictates.
   11. If everything goes right, your model will begin training and it should take some time (6h~) until it generates proper results.
       - You may check for the BasicSR/experiments/model_name folder for validation images, the models, its training states and logs.
-      - You can also run tensorboard **if installed** *pip package*, to check for the stats on your web-browser.
+      - You can also run tensorboard **if installed** *pip package*,
+ to check for the stats on your web-browser.
+      - Example: `tensorboard --logdir BasicSR/tb_logger/model_name`
   11. Once you feel like not running the model anymore or are satisfied with the results just close the Terminal/CMD, or press Ctrl+C to stop the BasicSR.
   
 ## Observations and Troubleshooting:
