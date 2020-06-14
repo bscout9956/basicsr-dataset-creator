@@ -53,12 +53,13 @@ def process(input_folder):
                     with Im.open(pic_path, "r") as picture:
                         if picture.mode != "RGB":
                             picture = picture.convert(mode="RGB")
-                        pic_cubic = picture.resize((int(picture.width / scale), int(picture.height / scale)), resample=4)
-                        pic_cubic = pic_cubic.resize((int(picture.width),int(picture.height)),resample=3)
+                        pic_cubic = picture.resize((int(picture.width / scale), int(picture.height / scale)),
+                                                   resample=4)
+                        pic_cubic = pic_cubic.resize((int(picture.width), int(picture.height)), resample=3)
                         pic_cubic.save(out_path, "PNG", icc_profile='')
                         index += 1
                 except Exception as e:
-                    raise e # well...
+                    raise e  # well...
                     print("An error prevented this image from being converted")
                     print("Delete: {}".format(pic_path))
                     failed_index += 1
