@@ -42,7 +42,8 @@ def process(input_folder):
     failed_index = 0
     for root, dirs, files in os.walk(input_folder):
         if not os.path.isdir(root + slash + "processed" + slash):
-            print("Directory does not exist. Creating {}".format(root + slash + "processed"))
+            print("Directory does not exist. Creating {}".format(
+                root + slash + "processed"))
             os.makedirs(root + slash + "processed" + slash)
         for filename in files:
             if filename.endswith("jpg") or filename.endswith("dds") or filename.endswith("png"):
@@ -54,8 +55,9 @@ def process(input_folder):
                         if picture.mode != "RGB":
                             picture = picture.convert(mode="RGB")
                         pic_nn = picture.resize((int(picture.width / scale), int(picture.height / scale)),
-                                                   resample=0)
-                        pic_nn = pic_nn.resize((int(picture.width), int(picture.height)), resample=0)
+                                                resample=0)
+                        pic_nn = pic_nn.resize(
+                            (int(picture.width), int(picture.height)), resample=0)
                         pic_nn.save(out_path, "PNG", icc_profile='')
                         index += 1
                 except Exception as e:

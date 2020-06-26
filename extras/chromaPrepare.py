@@ -18,6 +18,7 @@ lab_p = ImCms.createProfile("LAB")
 rgb2lab = ImCms.buildTransformFromOpenProfiles(srgb_p, lab_p, "RGB", "LAB")
 lab2rgb = ImCms.buildTransformFromOpenProfiles(lab_p, srgb_p, "LAB", "RGB")
 
+
 def get_radius_average():
     if radius_count != 0:
         return radius_sum / radius_count
@@ -46,7 +47,8 @@ def process(input_folder):
     failed_index = 0
     for root, dirs, files in os.walk(input_folder):
         if not os.path.isdir(root + slash + "processed" + slash):
-            print("Directory does not exist. Creating {}".format(root + slash + "processed"))
+            print("Directory does not exist. Creating {}".format(
+                root + slash + "processed"))
             os.makedirs(root + slash + "processed" + slash)
         for filename in files:
             if filename.endswith("jpg") or filename.endswith("dds") or filename.endswith("png"):
@@ -63,12 +65,12 @@ def process(input_folder):
                     random_radius = get_random_radius(0.5, 5)
                     a = a.filter(ImageFilter.GaussianBlur(random_radius))
                     b = b.filter(ImageFilter.GaussianBlur(random_radius))
-                    pic_lab = Im.merge("LAB", (L, a , b))
+                    pic_lab = Im.merge("LAB", (L, a, b))
                     pic_lab = ImCms.applyTransform(pic_lab, lab2rgb)
                     pic_lab.save(out_path, "PNG", icc_profile='')
                     index += 1
                 except Exception as e:
-                    raise e # well...
+                    raise e  # well...
                     print("An error prevented this image from being converted")
                     print("Delete: {}".format(pic_path))
                     failed_index += 1
@@ -77,7 +79,8 @@ def process(input_folder):
 
 
 def main():
-    #process("..{}input".format(slash))
+    # process("..{}input".format(slash))
+
 
 if __name__ == "__main__":
     main()

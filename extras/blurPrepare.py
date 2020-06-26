@@ -55,7 +55,7 @@ def process(input_folder):
         if not os.path.isdir(root + slash + "processed" + slash):
             print("Directory does not exist")
             os.makedirs(root + slash + "processed" + slash)
-        for filename in files:            
+        for filename in files:
             if filename.endswith("jpg") or filename.endswith("dds") or filename.endswith("png"):
                 print("Processing Picture {} of {}".format(index, file_count))
                 pic_path = root + slash + filename
@@ -66,7 +66,8 @@ def process(input_folder):
                         picture = picture.convert(mode="RGB")
                         rgb_index += 1
                     # if get_random_blur_type() == "gaussian":
-                    picture = picture.filter(ImageFilter.GaussianBlur(get_random_radius()))
+                    picture = picture.filter(
+                        ImageFilter.GaussianBlur(get_random_radius()))
                     # else:
                     #     picture = picture.filter(ImageFilter.BoxBlur(get_random_radius()))
                     picture.save(out_path, "PNG", icc_profile='')
