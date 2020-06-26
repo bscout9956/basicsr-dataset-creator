@@ -1,0 +1,2 @@
+python prepare_dataset_1x.py
+pause
