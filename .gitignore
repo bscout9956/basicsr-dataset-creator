@@ -136,3 +136,6 @@ output/
 .idea/*
 /datasets/
 dataset/*
+
+# VS Code
+.vscode
