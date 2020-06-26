@@ -9,10 +9,10 @@ A set of scripts that split images into squares for BasicSR model training.
   - If you are not satisfied with the results of the dataset train/val ratio you can delete the datasets folder and run select_tiles again with different percentages.
 
 ## Requirements:
-  - An NVIDIA GPU + CUDA 9 or 10 installed: https://developer.nvidia.com/cuda-toolkit
+  - An NVIDIA GPU + CUDA 10 or 11 installed: https://developer.nvidia.com/cuda-toolkit
   - Python 3.7 or newer (64-bits): https://www.python.org/downloads/
     - Make sure you are running python3 by typing `python --version` or `python3 --version`
-  - A clone of the BasicSR or any forks of it
+  - A clone of the BasicSR repo or any forks of it
     - **Observation**: DinJerr's fork of BasicSR is preffered, but this should work with the original repo as well.
       - DinJerr's: https://github.com/DinJerr/BasicSR
       - xinntao: https://github.com/xinntao/BasicSR
@@ -98,6 +98,10 @@ A set of scripts that split images into squares for BasicSR model training.
       - SSH is great for remote management of model training. Just make sure to use (RSA or better) keyrings and not passwords ;)
     2. You can find additional scripts in the extras folder, they have been used by me for some of the models I've trained.
       - I guarantee nothing about them working and the code is terrible.
+    3. DinJerr's fork allows the usage of NVIDIA's AMP. https://developer.nvidia.com/automatic-mixed-precision
+      - This currently requires the usage of PyTorch Preview and CUDA 10.2
+      - It can speed up the process by quite a lot and also help reduce VRAM usage. Also, you will probably need a Turing GPU to see benefits. 
+        - GTX 1600 series are compatible.
       
 ## Thanks...
   - To everyone in the Game-Upscale Discord Server which have instigated a great interest in me training my own models and writing this solution.
@@ -107,7 +111,7 @@ A set of scripts that split images into squares for BasicSR model training.
     - His scripts were also a bit outdated and I had a hard time finding an alternative that had similar features and was solely focused on training.
   - The original creators of ESRGAN and BasicSR and "forkers".
   
-# WIP:
+# TODO:
   - Have a choice for the percentage of the output tiles.
   - Add toggles to the scripts...
     - i.e: --input-directory=./here
