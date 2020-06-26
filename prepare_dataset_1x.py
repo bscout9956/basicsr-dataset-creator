@@ -10,6 +10,7 @@ import time
 
 slash = "\\" if name == 'nt' else "/"
 ImageFile.LOAD_TRUNCATED_IMAGES = True
+valid_extensions = [".jpg", ".png", ".dds", ".bmp"]
 
 # Folders
 
@@ -92,15 +93,16 @@ def main():
     file_count = check_file_count(input_folder)
     index = 1
     for filename in listdir(input_folder):
-        if filename.endswith("jpg") or filename.endswith("dds") or filename.endswith("png"):
-            print("Splitting picture {} of {}".format(index, file_count))
-            pic_path = input_folder + slash + filename
-            picture = Im.open(pic_path, "r")
-            if picture.mode != "RGB":
-                picture = picture.convert(mode="RGB")
-                rgb_index += 1
-            process_image(picture, filename)
-            index += 1
+        for valid_extension in valid_extensions:
+            if filename.endswith(valid_extension):                    
+                print("Splitting picture {} of {}".format(index, file_count))
+                pic_path = input_folder + slash + filename
+                picture = Im.open(pic_path, "r")
+                if picture.mode != "RGB":
+                    picture = picture.convert(mode="RGB")
+                    rgb_index += 1
+                process_image(picture, filename)
+                index += 1
     print("{} pictures were converted to RGB.".format(rgb_index))
 
 
