@@ -13,8 +13,8 @@ A set of scripts that split images into squares for BasicSR model training.
   - Python 3.7 or newer (64-bits): https://www.python.org/downloads/
     - Make sure you are running python3 by typing `python --version` or `python3 --version`
   - A clone of the BasicSR or any forks of it
-    - **Observation**: rlaPHOENiX's fork of BasicSR is preffered, but this should work with the original repo as well.
-      - PHOENiX's: https://github.com/rlaPHOENiX/BasicSR
+    - **Observation**: DinJerr's fork of BasicSR is preffered, but this should work with the original repo as well.
+      - DinJerr's: https://github.com/DinJerr/BasicSR
       - xinntao: https://github.com/xinntao/BasicSR
   - PyTorch for Python 3 according to your environment of choice: https://pytorch.org/
   - Python packages: `pip install numpy opencv-python lmdb pyyaml tensorboard pillow` 
@@ -47,7 +47,7 @@ A set of scripts that split images into squares for BasicSR model training.
       - Under the `path` tree, set the root of the BasicSR to where you have cloned the BasicSR repo
         - Comment out pretrain if you are not planning on using a pretrained model
         - Comment out the resume state if you are starting a new model, uncomment if you are resuming and change the directions accordingly.
-      - Depending on the BasicSR fork you will have to switch `discriminator_vgg_128` to `discriminator_vgg`, make sure it matches the HR size, if it still doesn't work do `discriminator_vgg`.
+      - Depending on the BasicSR fork you will have to switch `discriminator_vgg_128` to `discriminator_vgg`.
       - Under the train tree you can set some additional weights, I recommend uncommenting LPIPS on Phoenix's fork.
         - You may also change the validation frequency, it's in scientific notation. 1e3 = 1000 iters.
       - Under the logger tree you can change the tensorboard logger parameters or disable it
