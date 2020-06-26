@@ -8,6 +8,7 @@ slash = "\\" if os.name == 'nt' else "/"
 lq_val = 20
 hq_val = 40
 
+valid_extensions = [".jpg", ".png", ".dds", ".bmp"]
 
 def get_random_quality():
     # Use time as a seed, makes it more randomized :)
@@ -37,20 +38,21 @@ def process(input_folder):
     failed_index = 0
     for root, dirs, files in os.walk(input_folder):
         for filename in files:
-            if filename.endswith("jpg") or filename.endswith("dds") or filename.endswith("png"):
-                print("Processing Picture {} of {}".format(index, file_count))
-                pic_path = root + slash + filename
-                try:
-                    picture = Im.open(pic_path, "r")
-                    if picture.mode != "RGB":
-                        picture = picture.convert(mode="RGB")
-                        rgb_index += 1
-                    picture.save(pic_path.rstrip(".png").rstrip(".jpg").rstrip(".dds") + ".jpg", "JPEG", quality=get_random_quality(), subsampling=get_random_subsampling())
-                    index += 1
-                except:
-                    print("An error prevented this image from being converted")
-                    print("Delete: {}".format(pic_path))
-                    failed_index += 1
+            for valid_extension in valid_extensions:
+                if filename.endswith(valid_extension):
+                    print("Processing Picture {} of {}".format(index, file_count))
+                    pic_path = root + slash + filename
+                    try:
+                        picture = Im.open(pic_path, "r")
+                        if picture.mode != "RGB":
+                            picture = picture.convert(mode="RGB")
+                            rgb_index += 1
+                        picture.save(pic_path.rstrip(".png").rstrip(".jpg").rstrip(".dds") + ".jpg", "JPEG", quality=get_random_quality(), subsampling=get_random_subsampling())
+                        index += 1
+                    except:
+                        print("An error prevented this image from being converted")
+                        print("Delete: {}".format(pic_path))
+                        failed_index += 1
     print("{} pictures were converted from Palette Mode to RGB.".format(rgb_index))
 
 # Tremendous oversight
