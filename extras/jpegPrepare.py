@@ -5,11 +5,14 @@ import time
 
 slash = "\\" if os.name == 'nt' else "/"
 
+lq_val = 20
+hq_val = 40
+
 
 def get_random_quality():
     # Use time as a seed, makes it more randomized :)
     random.seed(time.time_ns())
-    return random.randint(40, 60)
+    return random.randint(lq_val, hq_val)
 
 
 def get_random_subsampling():
@@ -52,10 +55,9 @@ def process(input_folder):
 
 # Tremendous oversight
 
-
 def main():
-    process("..{}datasets{}train{}lr".format(slash,slash,slash))
-    process("..{}datasets{}va{}lr".format(slash,slash,slash))
+    process("..{}datasets{}train{}lr".format(slash,slash,slash)) # slashslashslash bad
+    process("..{}datasets{}val{}lr".format(slash,slash,slash)) # slashslashslash bad
 
 
 if __name__ == "__main__":
