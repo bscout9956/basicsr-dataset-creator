@@ -10,6 +10,7 @@ hq_val = 40
 
 valid_extensions = [".jpg", ".png", ".dds", ".bmp"]
 
+
 def get_random_quality():
     # Use time as a seed, makes it more randomized ?
     random.seed(time.time_ns())
@@ -19,7 +20,7 @@ def get_random_quality():
 def get_random_subsampling():
     # Use time as a seed, makes it more randomized ?
     random.seed(time.time_ns())
-    sampling_values = [0, 2] # 0 = 4:4:4, 2 = 4:2:0 (Pillow)
+    sampling_values = [0, 2]  # 0 = 4:4:4, 2 = 4:2:0 (Pillow)
     return random.choice(sampling_values)
 
 
@@ -47,7 +48,8 @@ def process(input_folder):
                         if picture.mode != "RGB":
                             picture = picture.convert(mode="RGB")
                             rgb_index += 1
-                        picture.save(pic_path.rstrip(".png").rstrip(".jpg").rstrip(".dds") + ".jpg", "JPEG", quality=get_random_quality(), subsampling=get_random_subsampling())
+                        picture.save(pic_path.rstrip(".png").rstrip(".jpg").rstrip(
+                            ".dds") + ".jpg", "JPEG", quality=get_random_quality(), subsampling=get_random_subsampling())
                         index += 1
                     except:
                         print("An error prevented this image from being converted")
@@ -57,9 +59,12 @@ def process(input_folder):
 
 # Tremendous oversight
 
+
 def main():
-    process("..{}datasets{}train{}lr".format(slash,slash,slash)) # slashslashslash bad
-    process("..{}datasets{}val{}lr".format(slash,slash,slash)) # slashslashslash bad
+    process("..{}datasets{}train{}lr".format(
+        slash, slash, slash))  # slashslashslash bad
+    process("..{}datasets{}val{}lr".format(
+        slash, slash, slash))  # slashslashslash bad
 
 
 if __name__ == "__main__":

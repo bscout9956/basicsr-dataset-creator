@@ -21,7 +21,7 @@ output_folder = "." + slash + "output"
 
 scale = 1
 hr_size = 16
-lr_size = int(hr_size / scale) # Don't you dare to put 0.
+lr_size = int(hr_size / scale)  # Don't you dare to put 0.
 random_lr_scaling = False
 lr_scaling = 1
 
@@ -75,9 +75,11 @@ def process_image(image, filename):
     else:
         for i in range(v_divs):
             for j in range(h_divs):
-                image_copy = image.crop((hr_size * j, hr_size * i, hr_size * (j + 1), hr_size * (i + 1)))
+                image_copy = image.crop(
+                    (hr_size * j, hr_size * i, hr_size * (j + 1), hr_size * (i + 1)))
                 if scale != 1:
-                    image_lr = image_copy.resize((lr_size, lr_size), scale_filter())
+                    image_lr = image_copy.resize(
+                        (lr_size, lr_size), scale_filter())
                 else:
                     image_lr = image_copy
                 image_hr = image_copy
@@ -94,7 +96,7 @@ def main():
     index = 1
     for filename in listdir(input_folder):
         for valid_extension in valid_extensions:
-            if filename.endswith(valid_extension):                    
+            if filename.endswith(valid_extension):
                 print("Splitting picture {} of {}".format(index, file_count))
                 pic_path = input_folder + slash + filename
                 picture = Im.open(pic_path, "r")
