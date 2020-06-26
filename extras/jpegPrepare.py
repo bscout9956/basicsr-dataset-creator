@@ -11,13 +11,13 @@ hq_val = 40
 valid_extensions = [".jpg", ".png", ".dds", ".bmp"]
 
 def get_random_quality():
-    # Use time as a seed, makes it more randomized :)
+    # Use time as a seed, makes it more randomized ?
     random.seed(time.time_ns())
     return random.randint(lq_val, hq_val)
 
 
 def get_random_subsampling():
-    # Use time as a seed, makes it more randomized :)
+    # Use time as a seed, makes it more randomized ?
     random.seed(time.time_ns())
     sampling_values = [0, 2] # 0 = 4:4:4, 2 = 4:2:0 (Pillow)
     return random.choice(sampling_values)
