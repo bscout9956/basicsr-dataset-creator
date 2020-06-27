@@ -1,7 +1,7 @@
 from PIL import Image as Im
 from PIL import ImageFile
 from os import walk, path, makedirs, listdir, name
-from math import floor
+from shutil import copyfile
 import select_tiles
 import random
 import time
@@ -22,20 +22,7 @@ output_folder = "." + slash + "output"
 # Tile Settings
 
 scale = 1
-hr_size = 16
-lr_size = int(hr_size / scale)  # Don't you dare to put 0.
-random_lr_scaling = False
-lr_scaling = 1
-
-"""
- Use: 
- Image.NEAREST (0)
- Image.LANCZOS (1)
- Image.BILINEAR (2)
- Image.BICUBIC (3)
- Image.BOX (4) or 
- Image.HAMMING (5)
-"""
+tile_size = 128
 
 
 def get_random_number(start, end):
@@ -51,26 +38,14 @@ def check_file_count(in_folder):
     return file_count
 
 
-def get_filter():
-    rng = get_random_number
-    if random_lr_scaling:
-        if rng(0, 1) == 0:
-            return int(0)
-        else:
-            return int(3)
-    else:
-        return lr_scaling
-
-
 def process_image(image, filename):
     tile_index = 0
-    scale_filter = get_filter
-    output_dir = output_folder + slash
-    lr_output_dir = output_dir + "lr"
-    hr_output_dir = output_dir + "hr"
+    output_dir = "{}{}".format(output_folder, slash)
+    lr_output_dir = "{}lr".format(output_dir)
+    hr_output_dir = "{}hr".format(output_dir)
 
-    h_divs = floor(image.width / hr_size)
-    v_divs = floor(image.height / hr_size)
+    h_divs = image.width // tile_size
+    v_divs = image.height // tile_size
 
     if not path.isdir(output_dir) or not path.isdir(lr_output_dir) or not path.isdir(hr_output_dir):
         makedirs(lr_output_dir)
@@ -79,17 +54,14 @@ def process_image(image, filename):
         for i in range(v_divs):
             for j in range(h_divs):
                 image_copy = image.crop(
-                    (hr_size * j, hr_size * i, hr_size * (j + 1), hr_size * (i + 1)))
-                if scale != 1:
-                    image_lr = image_copy.resize(
-                        (lr_size, lr_size), scale_filter())
-                else:
-                    image_lr = image_copy
+                    (tile_size * j, tile_size * i, tile_size * (j + 1), tile_size * (i + 1)))
                 image_hr = image_copy
-                image_lr.save(lr_output_dir + slash + filename + "tile_{:08d}".format(tile_index) + ".png", "PNG",
-                              icc_profile='')
-                image_hr.save(hr_output_dir + slash + filename + "tile_{:08d}".format(tile_index) + ".png", "PNG",
-                              icc_profile='')
+                lr_filepath = "{}{}{}tile_{:08d}.png".format(lr_output_dir, slash, filename, tile_index)
+                hr_filepath = "{}{}{}tile_{:08d}.png".format(hr_output_dir, slash, filename, tile_index)
+                image_hr.save(hr_filepath,
+                              "PNG", icc_profile='')
+                copyfile(hr_filepath, lr_filepath)
+                image_copy.close()
                 tile_index += 1
 
 
@@ -109,6 +81,7 @@ def main():
                     picture = picture.convert(mode="RGB")
                     rgb_index += 1
                 process_image(picture, filename)
+                picture.close()
                 print("Taken {} seconds approximately".format((int(time.time()) - time_var)))
                 index += 1
     print("{} pictures were converted to RGB.".format(rgb_index))
