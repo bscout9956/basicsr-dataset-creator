@@ -101,7 +101,7 @@ def main():
         time_var = int(time.time())
         for valid_extension in valid_extensions:
             if filename.endswith(valid_extension):
-                print("Splitting picture {} of {}".format(index, file_count))
+                print("Splitting picture {} / {} of {}".format(filename, index, file_count))
                 pic_path = input_folder + slash + filename
                 picture = Im.open(pic_path, "r")
                 if picture.mode != "RGB":
