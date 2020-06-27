@@ -134,8 +134,10 @@ deviance/
 input/
 output/
 .idea/*
-/datasets/
+datasets/*
 dataset/*
+test/*
+test_output/*
 
 # VS Code
 .vscode
