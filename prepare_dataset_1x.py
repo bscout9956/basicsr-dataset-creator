@@ -11,6 +11,7 @@ import time
 slash = "\\" if name == 'nt' else "/"
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 valid_extensions = [".jpg", ".png", ".dds", ".bmp"]
+time_var = 0
 
 # Folders
 
@@ -61,6 +62,7 @@ def get_filter():
 
 
 def process_image(image, filename):
+    tile_index = 0
     scale_filter = get_filter
     output_dir = output_folder + slash
     lr_output_dir = output_dir + "lr"
@@ -83,11 +85,11 @@ def process_image(image, filename):
                 else:
                     image_lr = image_copy
                 image_hr = image_copy
-                image_lr.save(lr_output_dir + slash + filename + "tile_0{}{}".format(i, j) + ".png", "PNG",
+                image_lr.save(lr_output_dir + slash + filename + "tile_{:08d}".format(tile_index) + ".png", "PNG",
                               icc_profile='')
-                image_hr.save(hr_output_dir + slash + filename + "tile_0{}{}".format(i, j) + ".png", "PNG",
+                image_hr.save(hr_output_dir + slash + filename + "tile_{:08d}".format(tile_index) + ".png", "PNG",
                               icc_profile='')
-                time.sleep(0.016) # 60hz, no it makes no sense
+                tile_index += 1
 
 
 def main():
@@ -96,6 +98,7 @@ def main():
     file_count = check_file_count(input_folder)
     index = 1
     for filename in listdir(input_folder):
+        time_var = int(time.time())
         for valid_extension in valid_extensions:
             if filename.endswith(valid_extension):
                 print("Splitting picture {} of {}".format(index, file_count))
@@ -104,7 +107,8 @@ def main():
                 if picture.mode != "RGB":
                     picture = picture.convert(mode="RGB")
                     rgb_index += 1
-                process_image(picture, filename) # This increasingly takes time once it starts being executed... why?
+                process_image(picture, filename)
+                print("Taken {} seconds approximately".format((int(time.time()) - time_var)))
                 index += 1
     print("{} pictures were converted to RGB.".format(rgb_index))
 
