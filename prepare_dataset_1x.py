@@ -12,6 +12,7 @@ slash = "\\" if name == 'nt' else "/"
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 valid_extensions = [".jpg", ".png", ".dds", ".bmp"]
 time_var = 0
+time_start = int(time.time())
 
 # Folders
 
@@ -115,4 +116,8 @@ def main():
 
 if __name__ == "__main__":
     main()
+    time_pre_selecting = int(time.time())
     select_tiles.main()
+    time_finish = int(time.time())
+    print("Time taken splitting: {}".format(time_finish - time_pre_selecting))
+    print("Time taken overall: {}".format(time_finish - time_start))
