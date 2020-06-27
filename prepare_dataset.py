@@ -61,10 +61,11 @@ def get_filter():
 
 
 def process_image(image, filename):
+    tile_index = 0
     scale_filter = get_filter
-    output_dir = output_folder + slash
-    lr_output_dir = output_dir + "lr"
-    hr_output_dir = output_dir + "hr"
+    output_dir = "{}{}".format(output_folder, slash)
+    lr_output_dir = "{}lr".format(output_dir)
+    hr_output_dir = "{}hr".format(output_dir)
 
     h_divs = floor(image.width / hr_size)
     v_divs = floor(image.height / hr_size)
@@ -77,16 +78,16 @@ def process_image(image, filename):
             for j in range(h_divs):
                 image_copy = image.crop(
                     (hr_size * j, hr_size * i, hr_size * (j + 1), hr_size * (i + 1)))
-                if scale != 1:
-                    image_lr = image_copy.resize(
-                        (lr_size, lr_size), scale_filter())
-                else:
-                    image_lr = image_copy
+                image_lr = image_copy.resize((lr_size, lr_size), scale_filter())
                 image_hr = image_copy
-                image_lr.save(lr_output_dir + slash + filename + "tile_0{}{}".format(i, j) + ".png", "PNG",
+                lr_filepath = "{}{}{}tile_{:08d}.png".format(lr_output_dir, slash, filename, tile_index)
+                hr_filepath = "{}{}{}tile_{:08d}.png".format(hr_output_dir, slash, filename, tile_index)
+                image_lr.save(lr_filepath, "PNG",
                               icc_profile='')
-                image_hr.save(hr_output_dir + slash + filename + "tile_0{}{}".format(i, j) + ".png", "PNG",
+                image_hr.save(hr_filepath, "PNG",
                               icc_profile='')
+                image_copy.close()
+                tile_index += 1
 
 
 def main():
@@ -104,6 +105,7 @@ def main():
                     picture = picture.convert(mode="RGB")
                     rgb_index += 1
                 process_image(picture, filename)
+                picture.close()
                 index += 1
     print("{} pictures were converted to RGB.".format(rgb_index))
 
