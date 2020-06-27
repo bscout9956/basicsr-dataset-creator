@@ -11,6 +11,8 @@ import time
 slash = "\\" if name == 'nt' else "/"
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 valid_extensions = [".jpg", ".png", ".dds", ".bmp"]
+lr_save_list = []
+hr_save_list = []
 
 # Folders
 
@@ -24,6 +26,10 @@ hr_size = 128
 lr_size = int(hr_size / scale)  # Don't you dare to put 0.
 random_lr_scaling = False
 lr_scaling = 4
+
+# Misc
+
+use_ram = True  # Very intensive, may be faster
 
 """
  Use: 
@@ -82,12 +88,28 @@ def process_image(image, filename):
                 image_hr = image_copy
                 lr_filepath = "{}{}{}tile_{:08d}.png".format(lr_output_dir, slash, filename, tile_index)
                 hr_filepath = "{}{}{}tile_{:08d}.png".format(hr_output_dir, slash, filename, tile_index)
-                image_lr.save(lr_filepath, "PNG",
-                              icc_profile='')
-                image_hr.save(hr_filepath, "PNG",
-                              icc_profile='')
+                if use_ram:
+                    lr_save_list.append([image_lr, lr_filepath])
+                    hr_save_list.append([image_hr, hr_filepath])
+                else:
+                    image_lr.save(lr_filepath, "PNG", icc_profile='')
+                    image_hr.save(hr_filepath, "PNG", icc_profile='')
                 image_copy.close()
                 tile_index += 1
+
+
+def save():
+    save_start = int(time.time())
+    print("Saving pictures (all at once, might take a while)...")
+    print("Saving LR...")
+    for img in hr_save_list:
+        img[0].save(img[1], "PNG", icc_profile='')
+    print("Saving HR...")
+    for img in hr_save_list:
+        img[0].save(img[1], "PNG", icc_profile='')
+
+    save_end = int(time.time())
+    print("Time taken: {} - {} = {}".format(save_start, save_end, save_start - save_end))
 
 
 def main():
@@ -98,7 +120,7 @@ def main():
     for filename in listdir(input_folder):
         for valid_extension in valid_extensions:
             if filename.endswith(valid_extension):
-                print("Splitting picture {} of {}".format(index, file_count))
+                print("Splitting picture {} / {} of {}".format(filename, index, file_count))
                 pic_path = input_folder + slash + filename
                 picture = Im.open(pic_path, "r")
                 if picture.mode != "RGB":
@@ -107,6 +129,8 @@ def main():
                 process_image(picture, filename)
                 picture.close()
                 index += 1
+    if use_ram:
+        save()
     print("{} pictures were converted to RGB.".format(rgb_index))
 
 
