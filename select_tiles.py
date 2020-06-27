@@ -51,7 +51,7 @@ def main():
     file_count = check_file_count(input_dir)
     index_main = 0
     index_shift = 0
-    shift_count = random.randint(80,140) # Ideally you want around 100 or so
+    shift_count = random.randint(80, 140)  # Ideally you want around 100 or so
     shifted_images = []
     directory_list = [output_dir, val_lr_output_dir, val_hr_output_dir,
                       train_lr_output_dir, train_hr_output_dir]
