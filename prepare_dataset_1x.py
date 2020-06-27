@@ -87,6 +87,7 @@ def process_image(image, filename):
                               icc_profile='')
                 image_hr.save(hr_output_dir + slash + filename + "tile_0{}{}".format(i, j) + ".png", "PNG",
                               icc_profile='')
+                time.sleep(0.016) # 60hz, no it makes no sense
 
 
 def main():
@@ -103,7 +104,7 @@ def main():
                 if picture.mode != "RGB":
                     picture = picture.convert(mode="RGB")
                     rgb_index += 1
-                process_image(picture, filename)
+                process_image(picture, filename) # This increasingly takes time once it starts being executed... why?
                 index += 1
     print("{} pictures were converted to RGB.".format(rgb_index))
 
