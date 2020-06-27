@@ -33,12 +33,12 @@ A set of scripts that split images into squares for BasicSR model training.
     `python prepareDataset.py`
       - You may need to use python3 instead...
       - You may also want to open the script in a software like Notepad++ to edit its settings...
-      - **I strongly recommend checking the percentages inside select_tiles.py**
+      - If you plan to train a 1x Model, go with `prepare_dataset_1x.py`, there are specific changes that make it faster than the regular script.
   7. Check for the results inside the datasets folder once the script finishes running...
   8. Go to the root of your clone BasicSR folder
   9. Head to ../BasicSR/codes/options/train/
       - Pick a YML file as a template and edit its settings according to your dataset
-      - Rename your model accordingly, put a creative and relevant name on it, preferrably with the scale before it
+      - Rename your model accordingly, put a creative and relevant name on it, preferably with the scale before it
         - e.g: 4x_ScaleTreesGames, 8x_WaterCups, 2x_RandomAnimals
       - Match the scale according to the dataset, the default for this script is 4
       - Check the datasets indications inside the YML (for both val and train) and if you are a Windows user change all forward slashes (/) to double backslashes (\\).
@@ -82,7 +82,7 @@ A set of scripts that split images into squares for BasicSR model training.
     - Lower the batch_size, it may cause training to be slower however.
     - Lower the HR resolution **dataset change required**.
     - Other solutions for advanced users below.    
-  - Training 1x Models are possible but only on the old arch.
+  - Training 1x Models are possible but only on the old arch. Use the 1x script as it's faster.
   - Dataset Name and Validation Name in the YML are irrelevant.
   - PSNR is good when higher (25-30 avg). LPIPS is good when lower (<0.1 avg). SSIM is good when higher. (depends) 
   - You can find additional help on Reddit at https://www.reddit.com/r/GameUpscale/ and its Discord Server (I'm there ;)).
@@ -90,7 +90,7 @@ A set of scripts that split images into squares for BasicSR model training.
   - Feel free to submit bug reports, however I can't guarantee anyone an immediate fix or answer.
   - You'll be better off looking for help on that wiki or in the Discord Server. 
   ### Advanced Users Only:
-  - **I don't take responsibility for any damage, loss, corruption of files, explosion or whatever possible for following theseinstructions.**
+  - **I don't take responsibility for any damage, loss, corruption of files, explosion or whatever possible for following these instructions.**
     1. If you're low on memory, try this:
       - If you're on Linux, **log off**, go to a TTY (Ctrl+Alt+F2-?F12?). 
       - Log-in, check with `nvidia-smi` *if installed* which applications are using VRAM... 
