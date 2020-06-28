@@ -108,6 +108,7 @@ def main():
                 print("Taken {} seconds approximately".format((int(time.time()) - time_var)))
                 index += 1
     print("{} pictures were converted to RGB.".format(rgb_index))
+    save()
 
 
 if __name__ == "__main__":
