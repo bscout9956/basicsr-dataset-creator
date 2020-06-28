@@ -81,6 +81,7 @@ def save():
     print("Saving HR...")
     for img in hr_save_list:
         img[0].save(img[1], "PNG", icc_profile='')
+    print("Saving LR...")
     for img in lr_save_list:
         img[0].save(img[1], "PNG", icc_profile='')
 
