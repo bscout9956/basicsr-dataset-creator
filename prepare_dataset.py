@@ -102,7 +102,7 @@ def save():
     save_start = int(time.time())
     print("Saving pictures (all at once, might take a while)...")
     print("Saving LR...")
-    for img in hr_save_list:
+    for img in lr_save_list:
         img[0].save(img[1], "PNG", icc_profile='')
     print("Saving HR...")
     for img in hr_save_list:
