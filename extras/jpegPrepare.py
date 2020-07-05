@@ -49,7 +49,7 @@ def process(input_folder):
                             picture = picture.convert(mode="RGB")
                             rgb_index += 1
                         picture.save(pic_path.rstrip(".png").rstrip(".jpg").rstrip(
-                            ".dds") + ".jpg", "JPEG", quality=get_random_quality(), subsampling=get_random_subsampling())
+                            ".dds") + ".jpg", "JPEG", quality=get_random_quality(), subsampling=get_random_subsampling(), icc_profile='')
                         index += 1
                     except:
                         print("An error prevented this image from being converted")
@@ -61,10 +61,9 @@ def process(input_folder):
 
 
 def main():
-    process("..{}datasets{}train{}lr".format(
-        slash, slash, slash))  # slashslashslash bad
-    process("..{}datasets{}val{}lr".format(
-        slash, slash, slash))  # slashslashslash bad
+    process("..{}datasets{}train{}lr".format(slash, slash, slash))  # slashslashslash bad
+    process("..{}datasets{}val{}lr".format(slash, slash, slash))  # slashslashslash bad
+    #process("..{}testdir".format(slash))
 
 
 if __name__ == "__main__":
