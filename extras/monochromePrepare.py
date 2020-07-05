@@ -1,34 +1,19 @@
 from PIL import Image as Im
+from PIL import ImageOps as ImOps
 import os
 import random
 import time
 
+# Helper variables
+
 slash = "\\" if os.name == 'nt' else "/"
-
-lq_val = 20
-hq_val = 40
-
 valid_extensions = [".jpg", ".png", ".dds", ".bmp"]
 
 
-def get_random_quality():
-    # Use time as a seed, makes it more randomized ?
-    random.seed(time.time_ns())
-    return random.randint(lq_val, hq_val)
-
-
-def get_random_subsampling():
-    # Use time as a seed, makes it more randomized ?
-    random.seed(time.time_ns())
-    sampling_values = [0, 2]  # 0 = 4:4:4, 2 = 4:2:0 (Pillow)
-    return random.choice(sampling_values)
-
-
-def check_file_count(input_folder):
+def check_file_count(in_folder):
     file_count = 0
-    for root, dirs, files in os.walk(input_folder):
-        for file in files:
-            file_count += 1
+    for root, dirs, files in os.walk(in_folder):
+        file_count += len(files)
     return file_count
 
 
@@ -45,25 +30,25 @@ def process(input_folder):
                     pic_path = root + slash + filename
                     try:
                         picture = Im.open(pic_path, "r")
+                        picture = ImOps.grayscale(picture)
                         if picture.mode != "RGB":
                             picture = picture.convert(mode="RGB")
                             rgb_index += 1
-                        picture.save(pic_path.rstrip(".png").rstrip(".jpg").rstrip(
-                            ".dds") + ".jpg", "JPEG", quality=get_random_quality(), subsampling=get_random_subsampling(), icc_profile='')
+                        picture.save(pic_path, "PNG", icc_profile='')
                         index += 1
                     except:
+                        raise  # temporary
                         print("An error prevented this image from being converted")
                         print("Delete: {}".format(pic_path))
                         failed_index += 1
-    print("{} pictures were converted from Palette Mode to RGB.".format(rgb_index))
 
-# Tremendous oversight
+    print("{} pictures were converted from Palette/Grayscale/Other to RGB.".format(rgb_index))
+    print("{} pictures failed to be processed.".format(failed_index))
 
 
 def main():
-    process("..{}datasets{}train{}lr".format(slash, slash, slash))  # slashslashslash bad
-    process("..{}datasets{}val{}lr".format(slash, slash, slash))  # slashslashslash bad
-    #process("..{}testdir".format(slash))
+    #process("..{}datasets{}train{}lr".format(slash, slash, slash))
+    process("..{}datasets{}val{}lr".format(slash, slash, slash))
 
 
 if __name__ == "__main__":
