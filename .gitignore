@@ -138,6 +138,7 @@ datasets/
 dataset/*
 test/*
 test_output/*
+testdir/*
 inputbak/
 
 # VS Code
