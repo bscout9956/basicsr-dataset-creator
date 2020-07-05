@@ -24,9 +24,10 @@ output_folder = "." + slash + "output"
 # Tile Settings
 
 scale = 1
-tile_size = 16
+tile_size = 64
 
 # Misc
+# Gets heavier the lower the tile_size is, weirdly...
 
 use_ram = True
 
