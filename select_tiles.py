@@ -63,7 +63,8 @@ def main():
     for root, dirs, files in walk(input_dir):
         for filename in files:
             if filename.endswith("jpg") or filename.endswith("dds") or filename.endswith("png"):
-                print("Copying training tile {} of {}...".format(index_main + 1, file_count))
+                if index_main % 10 == 0:  # reduce the number of prints, goes faster =p
+                    print("Copying training tile {} of {}...".format(index_main + 1, file_count))
                 copy_image(filename, root + slash + filename)
                 index_main += 1
 
