@@ -33,12 +33,12 @@ use_ram = True  # Very intensive, may be faster
 
 """
  Use: 
- Image.NEAREST (0) # May oversoften
- Image.LANCZOS (1)
- Image.BILINEAR (2)
- Image.BICUBIC (3)
+ Image.NEAREST (0) # May oversharpen
+ Image.LANCZOS (1) # No idea
+ Image.BILINEAR (2) # May oversoften
+ Image.BICUBIC (3) # May oversoften
  Image.BOX (4) or # May overshapen
- Image.HAMMING (5)
+ Image.HAMMING (5) # No idea
 """
 
 
