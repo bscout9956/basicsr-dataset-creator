@@ -21,16 +21,16 @@ output_folder = "." + slash + "scale_test_output"
 
 # Tile Settings
 
-scale = 4
+scale = 16
 
 """
  Use: 
- Image.NEAREST (0) # May oversoften
- Image.LANCZOS (1)
- Image.BILINEAR (2)
- Image.BICUBIC (3)
- Image.BOX (4) or # May overshapen
- Image.HAMMING (5)
+ Image.NEAREST (0) # Looks raw
+ Image.LANCZOS (1) # Adds fringes
+ Image.BILINEAR (2) # Looks natural, smoother than box
+ Image.BICUBIC (3) # Adds slight fringes
+ Image.BOX (4) or # Looks natural
+ Image.HAMMING (5) # Looks natural?
 """
 
 
@@ -45,10 +45,28 @@ def process_image(image, filename):
     if not path.isdir(output_dir):
         makedirs(output_dir)
     else:
+        filter_name = None
         for x in range(0, 6):
-            imagefile_path = "{}{}scaling_{}.png".format(output_dir, filename, x)
-            image.resize((image.width // scale, image.height // scale), x)
-            image.save(imagefile_path, "PNG", icc_profile='')
+            # Ugly 
+            if x == 0:
+                filter_name = "nearest"
+            elif x == 1:
+                filter_name = "lanczos"
+            elif x == 2:
+                filter_name = "bilinear"
+            elif x == 3:
+                filter_name = "bicubic"
+            elif x == 4:
+                filter_name = "box"
+            elif x == 5:
+                filter_name = "hamming"
+            else:
+                filter_name = "invalid_filter"
+            
+            imagefile_path = "{}{}scaling_{}.png".format(output_dir, filename, filter_name)
+            #print((image.width // scale, image.height // scale))
+            image_copy = image.resize((image.width // scale, image.height // scale), x)
+            image_copy.save(imagefile_path, "PNG", icc_profile='')
 
 def main():
     print("Performing scale testing on the pictures...")
