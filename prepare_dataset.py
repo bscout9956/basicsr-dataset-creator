@@ -23,9 +23,9 @@ output_folder = "." + slash + "output"
 
 scale = 4
 hr_size = 128
-lr_size = int(hr_size / scale)  # Don't you dare to put 0.
-random_lr_scaling = False
-lr_scaling = 4
+lr_size = hr_size // scale  # Don't you dare to put 0.
+random_lr_scaling = True # May be somewhere in between soft and sharp, I am not sure
+lr_scaling = 0
 
 # Misc
 
@@ -33,11 +33,11 @@ use_ram = True  # Very intensive, may be faster
 
 """
  Use: 
- Image.NEAREST (0)
+ Image.NEAREST (0) # May oversoften
  Image.LANCZOS (1)
  Image.BILINEAR (2)
  Image.BICUBIC (3)
- Image.BOX (4) or 
+ Image.BOX (4) or # May overshapen
  Image.HAMMING (5)
 """
 
@@ -55,7 +55,7 @@ def check_file_count(in_folder):
     return file_count
 
 
-def get_filter():
+def get_filter(): 
     rng = get_random_number
     if random_lr_scaling:
         if rng(0, 1) == 0:
@@ -94,7 +94,7 @@ def process_image(image, filename):
                 else:
                     image_lr.save(lr_filepath, "PNG", icc_profile='')
                     image_hr.save(hr_filepath, "PNG", icc_profile='')
-                image_copy.close()
+                #image_copy.close()
                 tile_index += 1
 
 
