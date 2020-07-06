@@ -46,12 +46,12 @@ def process_image(image, filename):
         makedirs(output_dir)
     else:
         for x in range(0, 6):
-            imagefile_path = "{}{}scaling_{}".format(output_dir, filename, x)
+            imagefile_path = "{}{}scaling_{}.png".format(output_dir, filename, x)
             image.resize((image.width // scale, image.height // scale), x)
             image.save(imagefile_path, "PNG", icc_profile='')
 
 def main():
-    print("Splitting dataset pictures...")
+    print("Performing scale testing on the pictures...")
     rgb_index = 0
     for filename in listdir(input_folder):
         for valid_extension in valid_extensions:
