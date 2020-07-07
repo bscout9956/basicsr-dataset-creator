@@ -56,27 +56,30 @@ def process(input_folder):
             print("Directory does not exist")
             os.makedirs(root + slash + "processed" + slash)
         for filename in files:
-            if filename.endswith("jpg") or filename.endswith("dds") or filename.endswith("png"):
-                print("Processing Picture {} of {}".format(index, file_count))
-                pic_path = root + slash + filename
-                out_path = root + slash + "processed" + slash + filename
-                try:
-                    picture = Im.open(pic_path, "r")
-                    if picture.mode != "RGB":
-                        picture = picture.convert(mode="RGB")
-                        rgb_index += 1
-                    # if get_random_blur_type() == "gaussian":
-                    picture = picture.filter(
-                        ImageFilter.GaussianBlur(get_random_radius()))
-                    # else:
-                    #     picture = picture.filter(ImageFilter.BoxBlur(get_random_radius()))
-                    picture.save(out_path, "PNG", icc_profile='')
-                    index += 1
-                except:
-                    raise  # temporary
-                    print("An error prevented this image from being converted")
-                    print("Delete: {}".format(pic_path))
-                    failed_index += 1
+            for valid_extension in valid_extensions:
+                if filename.endswith(valid_extension):
+                    print("Processing Picture {} of {}".format(index, file_count))
+                    pic_path = root + slash + filename
+                    out_path = root + slash + "processed" + slash + filename
+                    try:
+                        picture = Im.open(pic_path, "r")
+                        if picture.mode != "RGB":
+                            picture = picture.convert(mode="RGB")
+                            rgb_index += 1
+                        # if get_random_blur_type() == "gaussian":
+                        picture = picture.filter(
+                            ImageFilter.GaussianBlur(get_random_radius()))
+                        # else:
+                        #     picture = picture.filter(ImageFilter.BoxBlur(get_random_radius()))
+                        picture.save(out_path, "PNG", icc_profile='')
+                        index += 1
+                    except:
+                        raise  # temporary
+                        print("An error prevented this image from being converted")
+                        print("Delete: {}".format(pic_path))
+                        failed_index += 1
+                else:
+                    print("Skipping {} as it's not a valid image or not a valid extension.".format(filename))
 
     print("{} pictures were converted from Palette/Grayscale/Other to RGB.".format(rgb_index))
     # print("The GaussianBlur was applied {} times and Box {} times.".format(gauss_count, box_count))
