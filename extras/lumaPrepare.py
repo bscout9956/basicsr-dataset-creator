@@ -49,18 +49,17 @@ def process(input_folder):
     failed_files = 0
     skipped_files = 0
     for root, dirs, files in os.walk(input_folder):
-        if not os.path.isdir(root + slash + "processed" + slash):
-            print("Directory does not exist. Creating {}".format(
-                root + slash + "processed"))
-            os.makedirs(root + slash + "processed" + slash)
+        if not os.path.isdir("{0}{1}processed{1}".format(root, slash)):
+            print("Directory does not exist. Creating {0}".format(
+                "{0}{1}processed".format(root, slash)))
+            os.makedirs("{0}{1}processed{1}".format(root, slash))
         for filename in files:
             valid_ext = False
             for valid_extension in valid_extensions:
                 if filename.endswith(valid_extension):
                     valid_ext = True
                     print("Processing Picture {} of {}".format(index, file_count))
-                    pic_path = root + slash + filename
-                    out_path = root + slash + "processed" + slash + filename
+                    pic_path = "{0}{1}{2}".format(root, slash, filename)
                     try:
                         picture = Im.open(pic_path, "r")
                         if picture.mode != "RGB":
@@ -72,7 +71,7 @@ def process(input_folder):
                             get_random_radius(0.5, 2.5)))
                         pic_lab = Im.merge("LAB", (L, a, b))
                         pic_lab = ImCms.applyTransform(pic_lab, lab2rgb)
-                        pic_lab.save(out_path, "PNG", icc_profile='')
+                        pic_lab.save(pic_path, "PNG", icc_profile='')
                         index += 1
                     except Exception as e:
                         raise e  # well...
@@ -89,8 +88,8 @@ def process(input_folder):
 
 
 def main():
-    process("..{}datasets{}train{}lr".format(slash, slash, slash))
-    process("..{}datasets{}val{}lr".format(slash, slash, slash))
+    process("..{0}datasets{0}train{0}lr".format(slash))
+    process("..{0}datasets{0}val{0}lr".format(slash))
 
 
 if __name__ == "__main__":

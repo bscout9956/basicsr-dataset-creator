@@ -5,12 +5,13 @@ import time
 from PIL import Image as Im
 from PIL import ImageFilter
 
+# Helper Variables
 slash = "\\" if os.name == 'nt' else "/"
-
 gauss_count = 0
 box_count = 0
 radius_count = 0
 radius_sum = 0
+valid_extensions = [".jpg", ".png", ".dds", ".bmp"]
 
 
 def get_radius_average():
@@ -51,18 +52,18 @@ def process(input_folder):
     index = 1
     rgb_index = 0
     failed_files = 0
+    skipped_files = 0
     for root, dirs, files in os.walk(input_folder):
-        if not os.path.isdir(root + slash + "processed" + slash):
+        if not os.path.isdir("{0}{1}processed{2}".format(root, slash, slash)):
             print("Directory does not exist")
-            os.makedirs(root + slash + "processed" + slash)
+            os.makedirs("{0}{1}processed{2}".format(root, slash, slash))
         for filename in files:
             valid_ext = False
             for valid_extension in valid_extensions:
                 if filename.endswith(valid_extension):
                     valid_ext = True
                     print("Processing Picture {} of {}".format(index, file_count))
-                    pic_path = root + slash + filename
-                    out_path = root + slash + "processed" + slash + filename
+                    pic_path = "{}{}{}".format(root, slash, filename)
                     try:
                         picture = Im.open(pic_path, "r")
                         if picture.mode != "RGB":
@@ -73,13 +74,13 @@ def process(input_folder):
                             ImageFilter.GaussianBlur(get_random_radius()))
                         # else:
                         #     picture = picture.filter(ImageFilter.BoxBlur(get_random_radius()))
-                        picture.save(out_path, "PNG", icc_profile='')
+                        picture.save(pic_path, "PNG", icc_profile='')
                         index += 1
                     except Exception as e:
-                        raise e
                         print("An error prevented this image from being converted")
                         print("Delete: {}".format(pic_path))
                         failed_files += 1
+                        raise e
             if not valid_ext:
                 print("Skipped {} as it's not a valid image or not a valid extension.".format(filename))
                 skipped_files += 1
@@ -92,8 +93,8 @@ def process(input_folder):
 
 
 def main():
-    process("..{}datasets{}train{}lr".format(slash, slash, slash))
-    process("..{}datasets{}val{}lr".format(slash, slash, slash))
+    process("..{0}datasets{0}train{0}lr".format(slash))
+    process("..{0}datasets{0}val{0}lr".format(slash))
 
 
 if __name__ == "__main__":

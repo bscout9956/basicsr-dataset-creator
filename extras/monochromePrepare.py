@@ -28,7 +28,7 @@ def process(input_folder):
                 if filename.endswith(valid_extension):
                     valid_ext = True
                     print("Processing Picture {} of {}".format(index, file_count))
-                    pic_path = root + slash + filename
+                    pic_path = "{0}{1}{2}".format(root, slash, filename)
                     try:
                         picture = Im.open(pic_path, "r")
                         picture = ImOps.grayscale(picture)
@@ -49,8 +49,8 @@ def process(input_folder):
 
 
 def main():
-    process("..{}datasets{}train{}lr".format(slash, slash, slash))
-    process("..{}datasets{}val{}lr".format(slash, slash, slash))
+    process("..{0}datasets{0}train{0}lr".format(slash))
+    process("..{0}datasets{0}val{0}lr".format(slash))
 
 
 if __name__ == "__main__":

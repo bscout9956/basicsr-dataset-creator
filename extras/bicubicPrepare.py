@@ -7,26 +7,28 @@ slash = "\\" if os.name == 'nt' else "/"
 radius_count = 0
 radius_sum = 0
 scale = 4
+valid_extensions = [".jpg", ".png", ".dds", ".bmp"]
 
 
-def check_file_count(input_folder):
+def check_file_count(in_folder):
     file_count = 0
-    for root, dirs, files in os.walk(input_folder):
-        for file in files:
-            file_count += 1
+    for root, dirs, files in os.walk(in_folder):
+        file_count += len(files)
     return file_count
 
 
 def process(input_folder):
     file_count = check_file_count(input_folder)
     index = 1
-    failed_index = 0
+    failed_files = 0
+    skipped_files = 0
     for root, dirs, files in os.walk(input_folder):
         if not os.path.isdir(root + slash + "processed" + slash):
             print("Directory does not exist. Creating {}".format(
-                root + slash + "processed"))
-            os.makedirs(root + slash + "processed" + slash)
+                "{0}{1}processed".format(root, slash)))
+            os.makedirs("{0}{1}processed{2}".format(root, slash, slash))
         for filename in files:
+            valid_ext = False
             for valid_extension in valid_extensions:
                 if filename.endswith(valid_extension):
                     valid_ext = True
@@ -43,10 +45,10 @@ def process(input_folder):
                             pic_cubic.save(pic_path, "PNG", icc_profile='')
                             index += 1
                     except Exception as e:
-                        raise e  # well...
                         print("An error prevented this image from being converted")
                         print("Delete: {}".format(pic_path))
-                        failed_index += 1
+                        failed_files += 1
+                        raise e
             if not valid_ext:
                 print("Skipped {} as it's not a valid image or not a valid extension.".format(filename))
                 skipped_files += 1
@@ -54,10 +56,9 @@ def process(input_folder):
     print("{} files were skipped.".format(skipped_files))
 
 
-
 def main():
-    process("..{}datasets{}train{}lr".format(slash, slash, slash))
-    process("..{}datasets{}val{}lr".format(slash, slash, slash))
+    process("..{0}datasets{0}train{0}lr".format(slash))
+    process("..{0}datasets{0}val{0}lr".format(slash))
 
 
 if __name__ == "__main__":
