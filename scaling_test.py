@@ -21,7 +21,7 @@ output_folder = "." + slash + "scale_test_output"
 
 # Tile Settings
 
-scale = 16
+scale = 8
 
 """
  Use: 
