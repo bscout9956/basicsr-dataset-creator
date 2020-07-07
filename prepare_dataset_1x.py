@@ -20,8 +20,8 @@ hr_save_list = []
 
 # Folders
 
-input_folder = "." + slash + "input"
-output_folder = "." + slash + "output"
+input_folder = ".{0}input".format(slash)
+output_folder = ".{0}output".format(slash)
 
 # Tile Settings
 
