@@ -25,7 +25,6 @@ def process(input_folder):
     for root, dirs, files in os.walk(input_folder):
         for filename in files:
             for valid_extension in valid_extensions:
-                print(valid_extension, filename)
                 if filename.endswith(valid_extension):
                     print("Processing Picture {} of {}".format(index, file_count))
                     pic_path = root + slash + filename
