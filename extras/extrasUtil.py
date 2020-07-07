@@ -17,10 +17,8 @@ def save(lr_save_list, hr_save_list):
     print("Saving pictures (all at once, might take a while)...")
     print("Saving LR...")
     [img[0].save(img[1], "PNG", icc_profile='') for img in lr_save_list]
-    print("Freeing resources...")
     print("Saving HR...")
     [img[0].save(img[1], "PNG", icc_profile='') for img in hr_save_list]
-    print("Freeing resources...")
 
     save_end = int(time.time())
     print("Time taken: {} - {} = {}".format(save_start, save_end, save_start - save_end))
