@@ -19,7 +19,6 @@ def check_file_count(in_folder):
 def process(input_folder):
     file_count = check_file_count(input_folder)
     index = 1
-    rgb_index = 0
     failed_files = 0
     skipped_files = 0
     for root, dirs, files in os.walk(input_folder):
@@ -33,9 +32,7 @@ def process(input_folder):
                     try:
                         picture = Im.open(pic_path, "r")
                         picture = ImOps.grayscale(picture)
-                        if picture.mode != "RGB":
-                            picture = picture.convert(mode="RGB")
-                            rgb_index += 1
+                        picture = picture.convert(mode="RGB")
                         picture.save(pic_path, "PNG", icc_profile='')
                         index += 1
                     except Exception as e:
@@ -46,7 +43,6 @@ def process(input_folder):
             if not valid_ext:
                 print("Skipped {} as it's not a valid image or not a valid extension.".format(filename))
 
-    print("{} pictures were converted from Palette/Grayscale/Other to RGB.".format(rgb_index))
     print("{} pictures failed to be processed.".format(failed_files))
     print("{} files were skipped.".format(skipped_files))
 
