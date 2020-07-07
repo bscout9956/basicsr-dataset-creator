@@ -77,9 +77,6 @@ def process(input_folder):
                         print("An error prevented this image from being converted")
                         print("Delete: {}".format(pic_path))
                         failed_files += 1
-                else:
-                    print("Skipping {} as it's not a valid image or not a valid extension.".format(filename))
-                    skipped_files += 1
 
     print("Average Blur Radius = {}".format(get_radius_average()))
     print("{} pictures failed to be processed.".format(failed_files))
