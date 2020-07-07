@@ -112,8 +112,4 @@ A set of scripts that split images into squares for BasicSR model training.
   - The original creators of ESRGAN and BasicSR and "forkers".
   
 # TODO:
-  - Have a choice for the percentage of the output tiles.
-  - Add toggles to the scripts...
-    - i.e: --input-directory=./here
-  - Fix potential bugs...
-  - Comment some of the code more?
+  - Improve the extras, maybe condensating some functionality into a utils.py script
