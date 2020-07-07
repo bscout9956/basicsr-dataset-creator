@@ -16,8 +16,8 @@ hr_save_list = []
 
 # Folders
 
-input_folder = "." + slash + "input"
-output_folder = "." + slash + "output"
+input_folder = ".{0}input".format(slash)
+output_folder = ".{0}output".format(slash)
 
 # Tile Settings
 
@@ -92,12 +92,14 @@ def process_image(image, filename):
                 else:
                     image_lr.save(lr_filepath, "PNG", icc_profile='')
                     image_hr.save(hr_filepath, "PNG", icc_profile='')
-                #image_copy.close()
+                # image_copy.close()
                 tile_index += 1
+
 
 def cleanup(save_list):
     for img in save_list:
         img[0].close()
+
 
 def save():
     save_start = int(time.time())
@@ -126,7 +128,7 @@ def main():
         for valid_extension in valid_extensions:
             if filename.endswith(valid_extension):
                 print("Splitting picture {} / {} of {}".format(filename, index, file_count))
-                pic_path = input_folder + slash + filename
+                pic_path = "{0}{1}{2}".format(input_folder, slash, filename)
                 picture = Im.open(pic_path, "r")
                 if picture.mode != "RGB":
                     picture = picture.convert(mode="RGB")

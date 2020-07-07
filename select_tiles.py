@@ -67,7 +67,7 @@ def main():
                 if filename.endswith(valid_extension):
                     if index_main % 10 == 0:  # reduce the number of prints, goes faster =p
                         print("Copying training tile {} of {}...".format(index_main + 1, file_count))
-                    copy_image(filename, "{}{}{}".format(root, slash, filename))
+                    copy_image(filename, "{0}{1}{2}".format(root, slash, filename))
                     index_main += 1
 
     for root, dirs, files in walk(output_dir):
@@ -78,7 +78,7 @@ def main():
                     print("Shifting tile {} out of {}...".format(index_shift + 1,
                                                                  shift_count))
                     shifted_images.append(random_file)
-                    shift_train(random_file, "{}{}{}".format(root, slash, random_file))
+                    shift_train(random_file, "{0}{1}{2}".format(root, slash, random_file))
                     shift_train(random_file, root.replace("hr", "lr") + slash + random_file)
                     index_shift += 1
 
