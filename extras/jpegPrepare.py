@@ -4,6 +4,8 @@ import time
 
 from PIL import Image as Im
 
+from extras import extrasUtil
+
 slash = "\\" if os.name == 'nt' else "/"
 
 lq_val = 20
@@ -25,15 +27,8 @@ def get_random_subsampling():
     return random.choice(sampling_values)
 
 
-def check_file_count(in_folder):
-    file_count = 0
-    for root, dirs, files in os.walk(in_folder):
-        file_count += len(files)
-    return file_count
-
-
 def process(input_folder):
-    file_count = check_file_count(input_folder)
+    file_count = extrasUtil.check_file_count(input_folder)
     index = 1
     rgb_index = 0
     failed_files = 0
@@ -53,7 +48,7 @@ def process(input_folder):
                             rgb_index += 1
                         picture.save("{0}.jpg".format(pic_path.rstrip(".png").rstrip(".jpg").rstrip(
                             ".dds")), "JPEG", subsampling=get_random_subsampling(),
-                                     quality=get_random_quality(), icc_profile='')
+                            quality=get_random_quality(), icc_profile='')
                         index += 1
                     except Exception as e:
                         print("An error prevented this image from being converted")

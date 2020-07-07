@@ -1,10 +1,12 @@
+import random
+from math import floor
+from os import path, makedirs, listdir, name
+
 from PIL import Image as Im
 from PIL import ImageFile
-from os import walk, path, makedirs, listdir, name
-from math import floor
+
 import select_tiles
-import random
-import time
+from extras import extrasUtil
 
 # Helper Variables and Flags
 
@@ -40,19 +42,6 @@ use_ram = True  # Very intensive, may be faster
  Image.BOX (4)
  Image.HAMMING (5)
 """
-
-
-def get_random_number(start, end):
-    # Use time as a seed, makes it more randomized
-    random.seed(time.time_ns())
-    return random.randint(start, end)
-
-
-def check_file_count(in_folder):
-    file_count = 0
-    for root, dirs, files in walk(in_folder):
-        file_count += len(files)
-    return file_count
 
 
 def get_filter():
@@ -95,33 +84,10 @@ def process_image(image, filename):
                 tile_index += 1
 
 
-def cleanup(save_list):
-    for img in save_list:
-        img[0].close()
-
-
-def save():
-    save_start = int(time.time())
-    print("Saving pictures (all at once, might take a while)...")
-    print("Saving LR...")
-    for img in lr_save_list:
-        img[0].save(img[1], "PNG", icc_profile='')
-    print("Freeing resources...")
-    cleanup(lr_save_list)
-    print("Saving HR...")
-    for img in hr_save_list:
-        img[0].save(img[1], "PNG", icc_profile='')
-    print("Freeing resources...")
-    cleanup(hr_save_list)
-
-    save_end = int(time.time())
-    print("Time taken: {} - {} = {}".format(save_start, save_end, save_start - save_end))
-
-
 def main():
     print("Splitting dataset pictures...")
     rgb_index = 0
-    file_count = check_file_count(input_folder)
+    file_count = extrasUtil.check_file_count(input_folder)
     index = 1
     for filename in listdir(input_folder):
         for valid_extension in valid_extensions:
@@ -136,7 +102,7 @@ def main():
                 picture.close()
                 index += 1
     if use_ram:
-        save()
+        extrasUtil.save(lr_save_list, hr_save_list)
     print("{} pictures were converted to RGB.".format(rgb_index))
 
 

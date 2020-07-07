@@ -1,10 +1,8 @@
+import os
+
 from PIL import Image as Im
 from PIL import ImageCms as ImCms
 from PIL import ImageFilter
-import os
-import random
-import time
-import numpy as np
 
 slash = "\\" if os.name == 'nt' else "/"
 
@@ -63,7 +61,9 @@ def process(input_folder):
 
 
 def main():
-    # process("..{}input".format(slash))
+
+
+# process("..{}input".format(slash))
 
 
 if __name__ == "__main__":

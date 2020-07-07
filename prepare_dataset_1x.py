@@ -1,12 +1,12 @@
-import random
 import time
-from os import walk, path, makedirs, listdir, name
+from os import path, makedirs, listdir, name
 from shutil import copyfile
 
 from PIL import Image as Im
 from PIL import ImageFile
 
 import select_tiles
+from extras import extrasUtil
 
 # Helper Variables and Flags
 
@@ -14,7 +14,7 @@ slash = "\\" if name == 'nt' else "/"
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 valid_extensions = [".jpg", ".png", ".dds", ".bmp"]
 time_var = 0
-time_start = int(time.time())
+time_start = time.time() // 1
 lr_save_list = []
 hr_save_list = []
 
@@ -32,19 +32,6 @@ tile_size = 64
 # Gets heavier the lower the tile_size is, weirdly...
 
 use_ram = True
-
-
-def get_random_number(start, end):
-    # Use time as a seed, makes it more randomized
-    random.seed(time.time_ns())
-    return random.randint(start, end)
-
-
-def check_file_count(in_folder):
-    file_count = 0
-    for root, dirs, files in walk(in_folder):
-        file_count += len(files)
-    return file_count
 
 
 def process_image(image, filename):
@@ -78,24 +65,10 @@ def process_image(image, filename):
                 tile_index += 1
 
 
-def save():
-    save_start = int(time.time())
-    print("Saving pictures (all at once, might take a while)...")
-    print("Saving HR...")
-    for img in hr_save_list:
-        img[0].save(img[1], "PNG", icc_profile='')
-    print("Saving LR...")
-    for img in lr_save_list:
-        img[0].save(img[1], "PNG", icc_profile='')
-
-    save_end = int(time.time())
-    print("Time spent saving: {} - {} = {}".format(save_start, save_end, save_start - save_end))
-
-
 def main():
     print("Splitting dataset pictures...")
     rgb_index = 0
-    file_count = check_file_count(input_folder)
+    file_count = extrasUtil.check_file_count(input_folder)
     index = 1
     for filename in listdir(input_folder):
         time_var = int(time.time())
@@ -112,7 +85,7 @@ def main():
                 print("Taken {} seconds approximately".format((int(time.time()) - time_var)))
                 index += 1
     print("{} pictures were converted to RGB.".format(rgb_index))
-    save()
+    extrasUtil.save(lr_save_list, hr_save_list)
 
 
 if __name__ == "__main__":
