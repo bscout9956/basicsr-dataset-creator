@@ -52,9 +52,11 @@ def process(input_folder):
                         failed_files += 1
             if not valid_ext:
                 print("Skipped {} as it's not a valid image or not a valid extension.".format(filename))
+                skipped_files += 1
 
     print("Average Blur Radius = {}".format(get_radius_average()))
     print("{} pictures failed to be processed.".format(failed_files))
+    print("{} files were skipped.".format(skipped_files))
 
 
 def main():
