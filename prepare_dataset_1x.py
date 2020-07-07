@@ -35,12 +35,6 @@ tile_size = 64
 use_ram = True
 
 
-def get_random_number(start, end):
-    # Use time as a seed, makes it more randomized
-    random.seed(time.time_ns())
-    return random.randint(start, end)
-
-
 def process_image(image, filename):
     tile_index = 0
     output_dir = "{}{}".format(output_folder, slash)

@@ -45,12 +45,6 @@ use_ram = True  # Very intensive, may be faster
 """
 
 
-def get_random_number(start, end):
-    # Use time as a seed, makes it more randomized
-    random.seed(time.time_ns())
-    return random.randint(start, end)
-
-
 def get_filter():
     scales = [1, 2, 4]
     if random_lr_scaling:
