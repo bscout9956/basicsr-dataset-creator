@@ -14,7 +14,7 @@ slash = "\\" if name == 'nt' else "/"
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 valid_extensions = [".jpg", ".png", ".dds", ".bmp"]
 time_var = 0
-time_start = int(time.time())
+time_start = time.time() // 1
 lr_save_list = []
 hr_save_list = []
 
