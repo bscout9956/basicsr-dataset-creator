@@ -48,7 +48,7 @@ def process(input_folder):
                             rgb_index += 1
                         picture.save("{0}.jpg".format(pic_path.rstrip(".png").rstrip(".jpg").rstrip(
                             ".dds")), "JPEG", subsampling=get_random_subsampling(),
-                                     quality=get_random_quality(), icc_profile='')
+                            quality=get_random_quality(), icc_profile='')
                         index += 1
                     except Exception as e:
                         print("An error prevented this image from being converted")

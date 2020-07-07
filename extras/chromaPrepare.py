@@ -61,7 +61,9 @@ def process(input_folder):
 
 
 def main():
-    # process("..{}input".format(slash))
+
+
+# process("..{}input".format(slash))
 
 
 if __name__ == "__main__":

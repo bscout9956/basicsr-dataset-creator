@@ -61,11 +61,12 @@ def process_image(image, filename):
                 filter_name = "hamming"
             else:
                 filter_name = "invalid_filter"
-            
+
             imagefile_path = "{}{}scaling_{}.png".format(output_dir, filename, filter_name)
-            #print((image.width // scale, image.height // scale))
+            # print((image.width // scale, image.height // scale))
             image_copy = image.resize((image.width // scale, image.height // scale), x)
             image_copy.save(imagefile_path, "PNG", icc_profile='')
+
 
 def main():
     print("Performing scale testing on the pictures...")
