@@ -39,8 +39,10 @@ def process(input_folder):
     failed_index = 0
     for root, dirs, files in os.walk(input_folder):
         for filename in files:
+            valid_ext = False
             for valid_extension in valid_extensions:
                 if filename.endswith(valid_extension):
+                    valid_ext = True
                     print("Processing Picture {} of {}".format(index, file_count))
                     pic_path = root + slash + filename
                     try:
@@ -56,7 +58,10 @@ def process(input_folder):
                         print("An error prevented this image from being converted")
                         print("Delete: {}".format(pic_path))
                         failed_index += 1
+            if valid_ext == False:
+                print("Skipped {} as it's not a valid image or not a valid extension.".format(filename))
     print("{} pictures were converted from Palette Mode to RGB.".format(rgb_index))
+    print("{} pictures failed to be processed.".format(failed_files))
 
 
 def main():

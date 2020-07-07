@@ -1,22 +1,12 @@
-from PIL import Image as Im
-from PIL import ImageCms as ImCms
-from PIL import ImageFilter
 import os
-import random
-import time
-import numpy as np
 
+from PIL import Image as Im
+
+# Helper Variables
 slash = "\\" if os.name == 'nt' else "/"
-
 radius_count = 0
 radius_sum = 0
-
 scale = 4
-
-
-def get_radius_average():
-    if radius_count != 0:
-        return radius_sum / radius_count
 
 
 def check_file_count(input_folder):
@@ -37,27 +27,31 @@ def process(input_folder):
                 root + slash + "processed"))
             os.makedirs(root + slash + "processed" + slash)
         for filename in files:
-            if filename.endswith("jpg") or filename.endswith("dds") or filename.endswith("png"):
-                print("Processing Picture {} of {}".format(index, file_count))
-                pic_path = root + slash + filename
-                out_path = root + slash + "processed" + slash + filename
-                try:
-                    with Im.open(pic_path, "r") as picture:
-                        if picture.mode != "RGB":
-                            picture = picture.convert(mode="RGB")
-                        pic_cubic = picture.resize((int(picture.width / scale), int(picture.height / scale)),
-                                                   resample=4)
-                        pic_cubic = pic_cubic.resize(
-                            (int(picture.width), int(picture.height)), resample=3)
-                        pic_cubic.save(out_path, "PNG", icc_profile='')
-                        index += 1
-                except Exception as e:
-                    raise e  # well...
-                    print("An error prevented this image from being converted")
-                    print("Delete: {}".format(pic_path))
-                    failed_index += 1
+            for valid_extension in valid_extensions:
+                if filename.endswith(valid_extension):
+                    valid_ext = True
+                    print("Processing Picture {} of {}".format(index, file_count))
+                    pic_path = root + slash + filename
+                    out_path = root + slash + "processed" + slash + filename
+                    try:
+                        with Im.open(pic_path, "r") as picture:
+                            if picture.mode != "RGB":
+                                picture = picture.convert(mode="RGB")
+                            pic_cubic = picture.resize((int(picture.width / scale), int(picture.height / scale)),
+                                                       resample=4)
+                            pic_cubic = pic_cubic.resize(
+                                (int(picture.width), int(picture.height)), resample=3)
+                            pic_cubic.save(out_path, "PNG", icc_profile='')
+                            index += 1
+                    except Exception as e:
+                        raise e  # well...
+                        print("An error prevented this image from being converted")
+                        print("Delete: {}".format(pic_path))
+                        failed_index += 1
+            if valid_ext == False:
+                print("Skipped {} as it's not a valid image or not a valid extension.".format(filename))
+    print("{} pictures failed to be processed.".format(failed_files))
 
-    print("Average Blur Radius = {}".format(get_radius_average()))
 
 
 def main():

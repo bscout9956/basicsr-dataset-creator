@@ -28,8 +28,10 @@ def process(input_folder):
                 root + slash + "processed"))
             os.makedirs(root + slash + "processed" + slash)
         for filename in files:
+            valid_ext = False
             for valid_extension in valid_extensions:
                 if filename.endswith(valid_extension):
+                    valid_ext = True
                     print("Processing Picture {} of {}".format(index, file_count))
                     pic_path = root + slash + filename
                     out_path = root + slash + "processed" + slash + filename
@@ -48,6 +50,8 @@ def process(input_folder):
                         print("An error prevented this image from being converted")
                         print("Delete: {}".format(pic_path))
                         failed_files += 1
+            if valid_ext == False:
+                print("Skipped {} as it's not a valid image or not a valid extension.".format(filename))
 
     print("Average Blur Radius = {}".format(get_radius_average()))
     print("{} pictures failed to be processed.".format(failed_files))
