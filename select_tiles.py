@@ -45,8 +45,8 @@ def shift_train(image_name, image_path):
 
 def main():
     file_count = extrasUtil.check_file_count(input_dir)
-    index_main = 0
-    index_shift = 0
+    index_main = 1
+    index_shift = 1
     shift_count = random.randint(80, 140)  # Ideally you want around 100 or so
     shifted_images = []
     directory_list = [output_dir, val_lr_output_dir, val_hr_output_dir,
@@ -60,8 +60,8 @@ def main():
         for filename in files:
             for valid_extension in valid_extensions:
                 if filename.endswith(valid_extension):
-                    if index_main % 10 == 0:  # reduce the number of prints, goes faster =p
-                        print("Copying training tile {} of {}...".format(index_main + 1, file_count))
+                    if index_main % 100 == 0:  # reduce the number of prints, goes faster =p
+                        print("Copying training tile {} of {}...".format(index_main, file_count))
                     copy_image(filename, "{0}{1}{2}".format(root, slash, filename))
                     index_main += 1
 
@@ -70,8 +70,9 @@ def main():
             while index_shift < shift_count:
                 random_file = choice(listdir(root))
                 if random_file not in shifted_images:
-                    print("Shifting tile {} out of {}...".format(index_shift + 1,
-                                                                 shift_count))
+                    if index_shift % 10 == 0:
+                        print("Shifting tile {} out of {}...".format(index_shift,
+                                                                     shift_count))
                     shifted_images.append(random_file)
                     shift_train(random_file, "{0}{1}{2}".format(root, slash, random_file))
                     shift_train(random_file, root.replace("hr", "lr") + slash + random_file)
