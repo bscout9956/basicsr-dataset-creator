@@ -19,20 +19,6 @@ rgb2lab = ImCms.buildTransformFromOpenProfiles(srgb_p, lab_p, "RGB", "LAB")
 lab2rgb = ImCms.buildTransformFromOpenProfiles(lab_p, srgb_p, "LAB", "RGB")
 
 
-def get_radius_average():
-    if radius_count != 0:
-        return radius_sum / radius_count
-
-
-def get_random_radius(a, b):
-    global radius_count, radius_sum
-    random.seed(time.time_ns())
-    radius = random.uniform(a, b)
-    radius_count += 1
-    radius_sum += radius
-    return radius
-
-
 def check_file_count(input_folder):
     file_count = 0
     for root, dirs, files in os.walk(input_folder):
@@ -74,8 +60,6 @@ def process(input_folder):
                     print("An error prevented this image from being converted")
                     print("Delete: {}".format(pic_path))
                     failed_index += 1
-
-    print("Average Blur Radius = {}".format(get_radius_average()))
 
 
 def main():

@@ -1,8 +1,7 @@
+import os
+
 from PIL import Image as Im
 from PIL import ImageOps as ImOps
-import os
-import random
-import time
 
 # Helper variables
 
@@ -47,7 +46,7 @@ def process(input_folder):
 
 
 def main():
-    #process("..{}datasets{}train{}lr".format(slash, slash, slash))
+    process("..{}datasets{}train{}lr".format(slash, slash, slash))
     process("..{}datasets{}val{}lr".format(slash, slash, slash))
 
 

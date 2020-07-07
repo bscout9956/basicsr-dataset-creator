@@ -19,15 +19,6 @@ def get_radius_average():
         return radius_sum / radius_count
 
 
-def get_random_radius(a, b):
-    global radius_count, radius_sum
-    # random.seed(time.time_ns())
-    radius = random.uniform(a, b)
-    radius_count += 1
-    radius_sum += radius
-    return radius
-
-
 def check_file_count(input_folder):
     file_count = 0
     for root, dirs, files in os.walk(input_folder):

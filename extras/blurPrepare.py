@@ -26,11 +26,10 @@ def get_random_radius():
     return radius
 
 
-def check_file_count(input_folder):
+def check_file_count(in_folder):
     file_count = 0
-    for root, dirs, files in os.walk(input_folder):
-        for file in files:
-            file_count += 1
+    for root, dirs, files in os.walk(in_folder):
+        file_count += len(files)
     return file_count
 
 

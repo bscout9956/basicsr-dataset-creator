@@ -24,11 +24,10 @@ def get_random_subsampling():
     return random.choice(sampling_values)
 
 
-def check_file_count(input_folder):
+def check_file_count(in_folder):
     file_count = 0
-    for root, dirs, files in os.walk(input_folder):
-        for file in files:
-            file_count += 1
+    for root, dirs, files in os.walk(in_folder):
+        file_count += len(files)
     return file_count
 
 
@@ -49,7 +48,8 @@ def process(input_folder):
                             picture = picture.convert(mode="RGB")
                             rgb_index += 1
                         picture.save(pic_path.rstrip(".png").rstrip(".jpg").rstrip(
-                            ".dds") + ".jpg", "JPEG", quality=get_random_quality(), subsampling=get_random_subsampling(), icc_profile='')
+                            ".dds") + ".jpg", "JPEG", subsampling=get_random_subsampling(),
+                                     quality=get_random_quality(), icc_profile='')
                         index += 1
                     except:
                         print("An error prevented this image from being converted")
@@ -57,13 +57,10 @@ def process(input_folder):
                         failed_index += 1
     print("{} pictures were converted from Palette Mode to RGB.".format(rgb_index))
 
-# Tremendous oversight
-
 
 def main():
-    process("..{}datasets{}train{}lr".format(slash, slash, slash))  # slashslashslash bad
-    process("..{}datasets{}val{}lr".format(slash, slash, slash))  # slashslashslash bad
-    #process("..{}testdir".format(slash))
+    process("..{}datasets{}train{}lr".format(slash, slash, slash))
+    process("..{}datasets{}val{}lr".format(slash, slash, slash))
 
 
 if __name__ == "__main__":
