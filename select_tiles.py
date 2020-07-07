@@ -1,8 +1,8 @@
-from os import walk, path, makedirs, listdir, name, strerror
-from shutil import copyfile, move
-from random import choice
 import errno
 import random
+from os import walk, path, makedirs, listdir, name, strerror
+from random import choice
+from shutil import copyfile, move
 
 # Helper Variables
 

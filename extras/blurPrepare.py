@@ -1,8 +1,9 @@
-from PIL import Image as Im
-from PIL import ImageFilter
 import os
 import random
 import time
+
+from PIL import Image as Im
+from PIL import ImageFilter
 
 slash = "\\" if os.name == 'nt' else "/"
 

@@ -1,5 +1,4 @@
 import os
-import random
 
 from PIL import Image as Im
 
