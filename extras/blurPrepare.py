@@ -80,7 +80,7 @@ def process(input_folder):
                         print("An error prevented this image from being converted")
                         print("Delete: {}".format(pic_path))
                         failed_files += 1
-            if valid_ext == False:
+            if not valid_ext:
                 print("Skipped {} as it's not a valid image or not a valid extension.".format(filename))
 
     print("{} pictures were converted from Palette/Grayscale/Other to RGB.".format(rgb_index))
