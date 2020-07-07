@@ -1,10 +1,10 @@
-from PIL import Image as Im
-from PIL import ImageCms as ImCms
-from PIL import ImageFilter
 import os
 import random
 import time
-import numpy as np
+
+from PIL import Image as Im
+from PIL import ImageCms as ImCms
+from PIL import ImageFilter
 
 slash = "\\" if os.name == 'nt' else "/"
 
@@ -74,6 +74,7 @@ def process(input_folder):
                     failed_index += 1
 
     print("Average Blur Radius = {}".format(get_radius_average()))
+    print("{} pictures failed to be processed.".format(failed_index))
 
 
 def main():

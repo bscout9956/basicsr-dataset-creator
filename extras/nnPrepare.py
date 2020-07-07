@@ -1,10 +1,7 @@
-from PIL import Image as Im
-from PIL import ImageCms as ImCms
-from PIL import ImageFilter
 import os
 import random
-import time
-import numpy as np
+
+from PIL import Image as Im
 
 slash = "\\" if os.name == 'nt' else "/"
 
