@@ -4,3 +4,27 @@ def check_file_count(in_folder):
     for root, dirs, files in walk(in_folder):
         file_count += len(files)
     return file_count
+
+
+def cleanup(save_list):
+    for img in save_list:
+        img[0].close()
+
+
+def save(lr_save_list, hr_save_list):
+    import time
+    save_start = int(time.time())
+    print("Saving pictures (all at once, might take a while)...")
+    print("Saving LR...")
+    for img in lr_save_list:
+        img[0].save(img[1], "PNG", icc_profile='')
+    print("Freeing resources...")
+    cleanup(lr_save_list)
+    print("Saving HR...")
+    for img in hr_save_list:
+        img[0].save(img[1], "PNG", icc_profile='')
+    print("Freeing resources...")
+    cleanup(hr_save_list)
+
+    save_end = int(time.time())
+    print("Time taken: {} - {} = {}".format(save_start, save_end, save_start - save_end))

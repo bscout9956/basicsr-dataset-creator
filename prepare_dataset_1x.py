@@ -72,20 +72,6 @@ def process_image(image, filename):
                 tile_index += 1
 
 
-def save():
-    save_start = int(time.time())
-    print("Saving pictures (all at once, might take a while)...")
-    print("Saving HR...")
-    for img in hr_save_list:
-        img[0].save(img[1], "PNG", icc_profile='')
-    print("Saving LR...")
-    for img in lr_save_list:
-        img[0].save(img[1], "PNG", icc_profile='')
-
-    save_end = int(time.time())
-    print("Time spent saving: {} - {} = {}".format(save_start, save_end, save_start - save_end))
-
-
 def main():
     print("Splitting dataset pictures...")
     rgb_index = 0
@@ -106,7 +92,7 @@ def main():
                 print("Taken {} seconds approximately".format((int(time.time()) - time_var)))
                 index += 1
     print("{} pictures were converted to RGB.".format(rgb_index))
-    save()
+    extrasUtil.save(lr_save_list, hr_save_list)
 
 
 if __name__ == "__main__":
