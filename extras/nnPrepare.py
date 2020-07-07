@@ -33,8 +33,7 @@ def process(input_folder):
                 if filename.endswith(valid_extension):
                     valid_ext = True
                     print("Processing Picture {} of {}".format(index, file_count))
-                    pic_path = root + slash + filename
-                    out_path = root + slash + "processed" + slash + filename
+                    pic_path = "{}{}{}".format(root, slash, filename)
                     try:
                         with Im.open(pic_path, "r") as picture:
                             if picture.mode != "RGB":
@@ -43,7 +42,7 @@ def process(input_folder):
                                                     resample=0)
                             pic_nn = pic_nn.resize(
                                 (int(picture.width), int(picture.height)), resample=0)
-                            pic_nn.save(out_path, "PNG", icc_profile='')
+                            pic_nn.save(pic_path, "PNG", icc_profile='')
                             index += 1
                     except Exception as e:
                         raise e  # well...
