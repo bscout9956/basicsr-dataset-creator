@@ -109,4 +109,5 @@ A set of scripts that split images into squares for BasicSR model training.
   - The original creators of ESRGAN and BasicSR and "forkers".
   
 # TODO:
-  - Improve the extras, maybe condensating some functionality into a utils.py script
+  - Condensate more code? Perhaps get rid of prepare_dataset_1x and merge into prepare_dataset.
+  - Condensate some of the prepare extras?
