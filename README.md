@@ -11,14 +11,12 @@ A set of scripts that split images into squares for BasicSR model training.
 ## Requirements:
   - An NVIDIA GPU + CUDA 10 or 11 installed: https://developer.nvidia.com/cuda-toolkit
   - Python 3.7 or newer (64-bits): https://www.python.org/downloads/
-    - Make sure you are running python3 by typing `python --version` or `python3 --version`
   - A clone of the BasicSR repo or any forks of it
     - **Observation**: DinJerr's fork of BasicSR is preffered, but this should work with the original repo as well.
       - DinJerr's: https://github.com/DinJerr/BasicSR
       - xinntao: https://github.com/xinntao/BasicSR
-  - PyTorch for Python 3 according to your environment of choice: https://pytorch.org/
+  - PyTorch for Python according to your environment of choice: https://pytorch.org/
   - Python packages: `pip install numpy opencv-python lmdb pyyaml tensorboard pillow` 
-    - You may need to use `pip3` instead...
   - **Linux users refer to the package manager and settings in your distro**.
     - CUDA usually comes with the driver, and the proprietary one is preferred.
   
@@ -31,8 +29,7 @@ A set of scripts that split images into squares for BasicSR model training.
   5. Place your pictures inside the input folder
   6. Run on CMD or Terminal (Linux):
     `python prepareDataset.py`
-      - You may need to use python3 instead...
-      - You may also want to open the script in a software like Notepad++ to edit its settings...
+      - You may want to open the script in a software like Notepad++ to edit its settings...
       - If you plan to train a 1x Model, go with `prepare_dataset_1x.py`, there are specific changes that make it faster than the regular script.
   7. Check for the results inside the datasets folder once the script finishes running...
   8. Go to the root of your clone BasicSR folder
@@ -68,8 +65,8 @@ A set of scripts that split images into squares for BasicSR model training.
   
 ## Observations and Troubleshooting:
   - **You may submit Pull Requests as my code can be pretty wonky.**
-  - It's mandatory to use Python 3 64-Bits so you can install PyTorch. It won't run on 32-Bit machines nor Python 2.
-  - If you cannot run PyTorch or install, reinstall Python 3 and all the needed packages.
+  - It's mandatory to use 64-Bit Python so you can install PyTorch. It won't run on 32-Bit machines.
+  - If you cannot run PyTorch or install, reinstall Python and all the needed packages.
   - The HR tiles resolution, LR tiles resolution and scale must relate to each other:
     i.e: 128x128 / scale (4) = 32x32.
       - HR: 128
