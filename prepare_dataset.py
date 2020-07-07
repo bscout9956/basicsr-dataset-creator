@@ -1,10 +1,13 @@
-from PIL import Image as Im
-from PIL import ImageFile
-from os import walk, path, makedirs, listdir, name
-from math import floor
-import select_tiles
 import random
 import time
+from math import floor
+from os import path, makedirs, listdir, name
+
+from PIL import Image as Im
+from PIL import ImageFile
+
+import select_tiles
+from extras import extrasUtil
 
 # Helper Variables and Flags
 
@@ -46,13 +49,6 @@ def get_random_number(start, end):
     # Use time as a seed, makes it more randomized
     random.seed(time.time_ns())
     return random.randint(start, end)
-
-
-def check_file_count(in_folder):
-    file_count = 0
-    for root, dirs, files in walk(in_folder):
-        file_count += len(files)
-    return file_count
 
 
 def get_filter():
@@ -121,7 +117,7 @@ def save():
 def main():
     print("Splitting dataset pictures...")
     rgb_index = 0
-    file_count = check_file_count(input_folder)
+    file_count = extrasUtil.check_file_count(input_folder)
     index = 1
     for filename in listdir(input_folder):
         for valid_extension in valid_extensions:

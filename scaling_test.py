@@ -1,10 +1,9 @@
-from PIL import Image as Im
-from PIL import ImageFile
-from os import walk, path, makedirs, listdir, name
-from math import floor
-import select_tiles
 import random
 import time
+from os import path, makedirs, listdir, name
+
+from PIL import Image as Im
+from PIL import ImageFile
 
 # Helper Variables and Flags
 

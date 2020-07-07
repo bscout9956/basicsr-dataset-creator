@@ -2,6 +2,8 @@ import os
 
 from PIL import Image as Im
 
+from extras import extrasUtil
+
 # Helper Variables
 slash = "\\" if os.name == 'nt' else "/"
 radius_count = 0
@@ -10,15 +12,8 @@ scale = 4
 valid_extensions = [".jpg", ".png", ".dds", ".bmp"]
 
 
-def check_file_count(in_folder):
-    file_count = 0
-    for root, dirs, files in os.walk(in_folder):
-        file_count += len(files)
-    return file_count
-
-
 def process(input_folder):
-    file_count = check_file_count(input_folder)
+    file_count = extrasUtil.check_file_count(input_folder)
     index = 1
     failed_files = 0
     skipped_files = 0

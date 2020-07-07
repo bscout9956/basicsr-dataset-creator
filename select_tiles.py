@@ -4,6 +4,8 @@ from os import walk, path, makedirs, listdir, name, strerror
 from random import choice
 from shutil import copyfile, move
 
+from extras import extrasUtil
+
 # Helper Variables
 
 slash = "\\" if name == 'nt' else "/"
@@ -17,13 +19,6 @@ val_lr_output_dir = "{}{}val{}lr".format(output_dir, slash, slash)
 val_hr_output_dir = val_lr_output_dir.replace("lr", "hr")
 train_lr_output_dir = val_lr_output_dir.replace("val", "train")
 train_hr_output_dir = val_hr_output_dir.replace("val", "train")
-
-
-def check_file_count(directory):
-    file_count = 0
-    for root, dirs, files in walk(directory):
-        file_count += len(files)
-    return file_count
 
 
 def copy_image(image_name, image_path):
@@ -49,7 +44,7 @@ def shift_train(image_name, image_path):
 
 
 def main():
-    file_count = check_file_count(input_dir)
+    file_count = extrasUtil.check_file_count(input_dir)
     index_main = 0
     index_shift = 0
     shift_count = random.randint(80, 140)  # Ideally you want around 100 or so
