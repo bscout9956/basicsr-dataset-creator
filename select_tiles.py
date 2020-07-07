@@ -1,12 +1,13 @@
-from os import walk, path, makedirs, listdir, name, strerror
-from shutil import copyfile, move
-from random import choice
 import errno
 import random
+from os import walk, path, makedirs, listdir, name, strerror
+from random import choice
+from shutil import copyfile, move
 
-# Helper Variable
+# Helper Variables
 
 slash = "\\" if name == 'nt' else "/"
+valid_extensions = [".jpg", ".png", ".dds", ".bmp"]
 
 # Folders
 
@@ -62,11 +63,12 @@ def main():
 
     for root, dirs, files in walk(input_dir):
         for filename in files:
-            if filename.endswith("jpg") or filename.endswith("dds") or filename.endswith("png"):
-                if index_main % 10 == 0:  # reduce the number of prints, goes faster =p
-                    print("Copying training tile {} of {}...".format(index_main + 1, file_count))
-                copy_image(filename, root + slash + filename)
-                index_main += 1
+            for valid_extension in valid_extensions:
+                if filename.endswith(valid_extension):
+                    if index_main % 10 == 0:  # reduce the number of prints, goes faster =p
+                        print("Copying training tile {} of {}...".format(index_main + 1, file_count))
+                    copy_image(filename, "{0}{1}{2}".format(root, slash, filename))
+                    index_main += 1
 
     for root, dirs, files in walk(output_dir):
         if "hr" in root and "train" in root:
@@ -76,7 +78,7 @@ def main():
                     print("Shifting tile {} out of {}...".format(index_shift + 1,
                                                                  shift_count))
                     shifted_images.append(random_file)
-                    shift_train(random_file, root + slash + random_file)
+                    shift_train(random_file, "{0}{1}{2}".format(root, slash, random_file))
                     shift_train(random_file, root.replace("hr", "lr") + slash + random_file)
                     index_shift += 1
 

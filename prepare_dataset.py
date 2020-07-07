@@ -16,15 +16,15 @@ hr_save_list = []
 
 # Folders
 
-input_folder = "." + slash + "input"
-output_folder = "." + slash + "output"
+input_folder = ".{0}input".format(slash)
+output_folder = ".{0}output".format(slash)
 
 # Tile Settings
 
 scale = 4
 hr_size = 128
 lr_size = hr_size // scale  # Don't you dare to put 0.
-random_lr_scaling = True # May be somewhere in between soft and sharp, I am not sure
+random_lr_scaling = True  # May be somewhere in between soft and sharp, I am not sure
 lr_scaling = 2
 
 # Misc
@@ -55,8 +55,7 @@ def check_file_count(in_folder):
     return file_count
 
 
-def get_filter(): 
-    rng = get_random_number
+def get_filter():
     scales = [1, 2, 4]
     if random_lr_scaling:
         return random.choice(scales)
@@ -92,12 +91,14 @@ def process_image(image, filename):
                 else:
                     image_lr.save(lr_filepath, "PNG", icc_profile='')
                     image_hr.save(hr_filepath, "PNG", icc_profile='')
-                #image_copy.close()
+                # image_copy.close()
                 tile_index += 1
+
 
 def cleanup(save_list):
     for img in save_list:
         img[0].close()
+
 
 def save():
     save_start = int(time.time())
@@ -126,7 +127,7 @@ def main():
         for valid_extension in valid_extensions:
             if filename.endswith(valid_extension):
                 print("Splitting picture {} / {} of {}".format(filename, index, file_count))
-                pic_path = input_folder + slash + filename
+                pic_path = "{0}{1}{2}".format(input_folder, slash, filename)
                 picture = Im.open(pic_path, "r")
                 if picture.mode != "RGB":
                     picture = picture.convert(mode="RGB")

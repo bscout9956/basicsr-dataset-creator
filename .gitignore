@@ -130,11 +130,12 @@ dmypy.json
 
 # Custom stuff
 
-deviance/
-input/
-output/
+deviance/*
+input/*
+output/*
 .idea/*
-datasets/
+datasets/*
+datasetsbkp/*
 dataset/*
 test/*
 test_output/*

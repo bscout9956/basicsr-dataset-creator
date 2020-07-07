@@ -1,10 +1,12 @@
-from PIL import Image as Im
-from PIL import ImageFile
-from os import walk, path, makedirs, listdir, name
-from shutil import copyfile
-import select_tiles
 import random
 import time
+from os import walk, path, makedirs, listdir, name
+from shutil import copyfile
+
+from PIL import Image as Im
+from PIL import ImageFile
+
+import select_tiles
 
 # Helper Variables and Flags
 
