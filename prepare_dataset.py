@@ -72,6 +72,8 @@ def process_image(image, filename):
                     (hr_size * j, hr_size * i, hr_size * (j + 1), hr_size * (i + 1)))
                 image_lr = image_copy.resize((lr_size, lr_size), scale_filter())
                 image_hr = image_copy
+                for ext in valid_extensions:
+                    filename = filename.replace(ext, "")
                 lr_filepath = "{}{}{}tile_{:08d}.png".format(lr_output_dir, slash, filename, tile_index)
                 hr_filepath = "{}{}{}tile_{:08d}.png".format(hr_output_dir, slash, filename, tile_index)
                 if use_ram:
@@ -80,7 +82,6 @@ def process_image(image, filename):
                 else:
                     image_lr.save(lr_filepath, "PNG", icc_profile='')
                     image_hr.save(hr_filepath, "PNG", icc_profile='')
-                # image_copy.close()
                 tile_index += 1
 
 
@@ -94,12 +95,11 @@ def main():
             if filename.endswith(valid_extension):
                 print("Splitting picture {} / {} of {}".format(filename, index, file_count))
                 pic_path = "{0}{1}{2}".format(input_folder, slash, filename)
-                picture = Im.open(pic_path, "r")
-                if picture.mode != "RGB":
-                    picture = picture.convert(mode="RGB")
-                    rgb_index += 1
-                process_image(picture, filename)
-                picture.close()
+                with Im.open(pic_path, "r") as picture:
+                    if picture.mode != "RGB":
+                        picture = picture.convert(mode="RGB")
+                        rgb_index += 1
+                    process_image(picture, filename)
                 index += 1
     if use_ram:
         extrasUtil.save(lr_save_list, hr_save_list)

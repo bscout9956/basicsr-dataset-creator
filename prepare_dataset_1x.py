@@ -70,20 +70,19 @@ def main():
     rgb_index = 0
     file_count = extrasUtil.check_file_count(input_folder)
     index = 1
+    time_var = int(time.time())
     for filename in listdir(input_folder):
-        time_var = int(time.time())
         for valid_extension in valid_extensions:
             if filename.endswith(valid_extension):
                 print("Splitting picture {} / {} of {}".format(filename, index, file_count))
                 pic_path = input_folder + slash + filename
-                picture = Im.open(pic_path, "r")
-                if picture.mode != "RGB":
-                    picture = picture.convert(mode="RGB")
-                    rgb_index += 1
-                process_image(picture, filename)
-                picture.close()
-                print("Taken {} seconds approximately".format((int(time.time()) - time_var)))
+                with Im.open(pic_path, "r") as picture:
+                    if picture.mode != "RGB":
+                        picture = picture.convert(mode="RGB")
+                        rgb_index += 1
+                    process_image(picture, filename)
                 index += 1
+    print("Taken {} seconds approximately".format((int(time.time()) - time_var)))
     print("{} pictures were converted to RGB.".format(rgb_index))
     extrasUtil.save(lr_save_list, hr_save_list)
 
