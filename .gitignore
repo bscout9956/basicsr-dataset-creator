@@ -140,6 +140,7 @@ test/*
 test_output/*
 testdir/*
 inputbak/
+scale_test_output/*
 
 # VS Code
 .vscode

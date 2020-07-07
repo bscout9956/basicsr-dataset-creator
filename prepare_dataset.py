@@ -25,7 +25,7 @@ scale = 4
 hr_size = 128
 lr_size = hr_size // scale  # Don't you dare to put 0.
 random_lr_scaling = True # May be somewhere in between soft and sharp, I am not sure
-lr_scaling = 0
+lr_scaling = 2
 
 # Misc
 
@@ -33,11 +33,11 @@ use_ram = True  # Very intensive, may be faster
 
 """
  Use: 
- Image.NEAREST (0) # May oversoften
+ Image.NEAREST (0)
  Image.LANCZOS (1)
  Image.BILINEAR (2)
  Image.BICUBIC (3)
- Image.BOX (4) or # May overshapen
+ Image.BOX (4)
  Image.HAMMING (5)
 """
 
@@ -57,11 +57,9 @@ def check_file_count(in_folder):
 
 def get_filter(): 
     rng = get_random_number
+    scales = [1, 2, 4]
     if random_lr_scaling:
-        if rng(0, 1) == 0:
-            return int(0)
-        else:
-            return int(3)
+        return random.choice(scales)
     else:
         return lr_scaling
 
@@ -97,6 +95,9 @@ def process_image(image, filename):
                 #image_copy.close()
                 tile_index += 1
 
+def cleanup(save_list):
+    for img in save_list:
+        img[0].close()
 
 def save():
     save_start = int(time.time())
@@ -104,9 +105,13 @@ def save():
     print("Saving LR...")
     for img in lr_save_list:
         img[0].save(img[1], "PNG", icc_profile='')
+    print("Freeing resources...")
+    cleanup(lr_save_list)
     print("Saving HR...")
     for img in hr_save_list:
         img[0].save(img[1], "PNG", icc_profile='')
+    print("Freeing resources...")
+    cleanup(hr_save_list)
 
     save_end = int(time.time())
     print("Time taken: {} - {} = {}".format(save_start, save_end, save_start - save_end))
