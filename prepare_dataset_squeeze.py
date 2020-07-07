@@ -63,20 +63,20 @@ def process_image(image, filename):
         makedirs(lr_output_dir)
         makedirs(hr_output_dir)
     else:
-                sf = scale_filter() 
-                image_lr = image.resize((lr_size, lr_size), sf) 
-                image_hr = image.resize((hr_size, hr_size), sf)
-                for ext in valid_extensions:
-                    filename = filename.replace(ext, "")
-                lr_filepath = "{}{}{}.png".format(lr_output_dir, slash, filename)
-                hr_filepath = "{}{}{}.png".format(hr_output_dir, slash, filename)
-                if use_ram:
-                    lr_save_list.append([image_lr, lr_filepath])
-                    hr_save_list.append([image_hr, hr_filepath])
-                else:
-                    image_lr.save(lr_filepath, "PNG", icc_profile='')
-                    image_hr.save(hr_filepath, "PNG", icc_profile='')
-                tile_index += 1
+        sf = scale_filter()
+        image_lr = image.resize((lr_size, lr_size), sf)
+        image_hr = image.resize((hr_size, hr_size), sf)
+        for ext in valid_extensions:
+            filename = filename.replace(ext, "")
+        lr_filepath = "{}{}{}.png".format(lr_output_dir, slash, filename)
+        hr_filepath = "{}{}{}.png".format(hr_output_dir, slash, filename)
+        if use_ram:
+            lr_save_list.append([image_lr, lr_filepath])
+            hr_save_list.append([image_hr, hr_filepath])
+        else:
+            image_lr.save(lr_filepath, "PNG", icc_profile='')
+            image_hr.save(hr_filepath, "PNG", icc_profile='')
+        tile_index += 1
 
 
 def main():
@@ -102,3 +102,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    select_tiles.main(True)

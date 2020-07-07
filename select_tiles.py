@@ -43,11 +43,14 @@ def shift_train(image_name, image_path):
                                 image_path)
 
 
-def main():
+def main(squeeze):
     file_count = extrasUtil.check_file_count(input_dir)
     index_main = 1
     index_shift = 1
-    shift_count = random.randint(80, 140)  # Ideally you want around 100 or so
+    if squeeze:
+        shift_count = random.randint(10, 30) # WIP
+    else:
+        shift_count = random.randint(80, 140)  # Ideally you want around 100 or so
     shifted_images = []
     directory_list = [output_dir, val_lr_output_dir, val_hr_output_dir,
                       train_lr_output_dir, train_hr_output_dir]

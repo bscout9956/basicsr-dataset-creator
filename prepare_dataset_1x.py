@@ -90,7 +90,7 @@ def main():
 if __name__ == "__main__":
     main()
     time_pre_selecting = int(time.time())
-    select_tiles.main()
+    select_tiles.main(False)
     time_finish = int(time.time())
     print("Time taken splitting: {}".format(time_finish - time_pre_selecting))
     print("Time taken overall: {}".format(time_finish - time_start))
