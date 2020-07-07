@@ -68,15 +68,19 @@ def main():
     for root, dirs, files in walk(output_dir):
         if "hr" in root and "train" in root:
             while index_shift < shift_count:
-                random_file = choice(listdir(root))
-                if random_file not in shifted_images:
-                    if index_shift % 10 == 0:
-                        print("Shifting tile {} out of {}...".format(index_shift,
-                                                                     shift_count))
-                    shifted_images.append(random_file)
-                    shift_train(random_file, "{0}{1}{2}".format(root, slash, random_file))
-                    shift_train(random_file, root.replace("hr", "lr") + slash + random_file)
-                    index_shift += 1
+                try:
+                    random_file = choice(listdir(root))
+                    if random_file not in shifted_images:
+                        if index_shift % 10 == 0:
+                            print("Shifting tile {} out of {}...".format(index_shift,
+                                                                         shift_count))
+                        shifted_images.append(random_file)
+                        shift_train(random_file, "{0}{1}{2}".format(root, slash, random_file))
+                        shift_train(random_file, root.replace("hr", "lr") + slash + random_file)
+                        index_shift += 1
+                except Exception as e:
+                    print("You may not have enough input images...")
+                    raise e
 
 
 if __name__ == "__main__":

@@ -72,6 +72,8 @@ def process_image(image, filename):
                     (hr_size * j, hr_size * i, hr_size * (j + 1), hr_size * (i + 1)))
                 image_lr = image_copy.resize((lr_size, lr_size), scale_filter())
                 image_hr = image_copy
+                for ext in valid_extensions:
+                    filename = filename.replace(ext, "")
                 lr_filepath = "{}{}{}tile_{:08d}.png".format(lr_output_dir, slash, filename, tile_index)
                 hr_filepath = "{}{}{}tile_{:08d}.png".format(hr_output_dir, slash, filename, tile_index)
                 if use_ram:
