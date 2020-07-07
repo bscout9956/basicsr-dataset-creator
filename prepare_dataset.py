@@ -1,5 +1,4 @@
 import random
-import time
 from math import floor
 from os import path, makedirs, listdir, name
 

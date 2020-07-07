@@ -1,4 +1,3 @@
-import random
 import time
 from os import path, makedirs, listdir, name
 from shutil import copyfile
