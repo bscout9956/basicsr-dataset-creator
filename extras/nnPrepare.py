@@ -48,7 +48,7 @@ def process(input_folder):
                         print("An error prevented this image from being converted")
                         print("Delete: {}".format(pic_path))
                         failed_files += 1
-                        raise e  # well...
+                        raise e
             if not valid_ext:
                 print("Skipped {} as it's not a valid image or not a valid extension.".format(filename))
                 skipped_files += 1
