@@ -20,7 +20,8 @@ def check_file_count(in_folder):
 def process(input_folder):
     file_count = check_file_count(input_folder)
     index = 1
-    failed_index = 0
+    failed_files = 0
+    skipped_files = 0
     for root, dirs, files in os.walk(input_folder):
         if not os.path.isdir(root + slash + "processed" + slash):
             print("Directory does not exist. Creating {}".format(
@@ -46,12 +47,13 @@ def process(input_folder):
                         raise e  # well...
                         print("An error prevented this image from being converted")
                         print("Delete: {}".format(pic_path))
-                        failed_index += 1
+                        failed_files += 1
                 else:
                     print("Skipping {} as it's not a valid image or not a valid extension.".format(filename))
+                    skipped_files += 1
 
     print("Average Blur Radius = {}".format(get_radius_average()))
-    print("{} pictures failed to be processed.".format(failed_index))
+    print("{} pictures failed to be processed.".format(failed_files))
 
 
 def main():
