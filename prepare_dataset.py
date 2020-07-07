@@ -24,7 +24,7 @@ output_folder = "." + slash + "output"
 scale = 4
 hr_size = 128
 lr_size = hr_size // scale  # Don't you dare to put 0.
-random_lr_scaling = False # May be somewhere in between soft and sharp, I am not sure
+random_lr_scaling = True # May be somewhere in between soft and sharp, I am not sure
 lr_scaling = 2
 
 # Misc
@@ -57,11 +57,9 @@ def check_file_count(in_folder):
 
 def get_filter(): 
     rng = get_random_number
+    scales = [1, 2, 4]
     if random_lr_scaling:
-        if rng(0, 1) == 0:
-            return int(0)
-        else:
-            return int(3)
+        return random.choice(scales)
     else:
         return lr_scaling
 
