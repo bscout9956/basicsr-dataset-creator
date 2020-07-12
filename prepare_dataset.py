@@ -1,6 +1,7 @@
 import random
 from math import floor
 from os import path, makedirs, listdir, name
+from os import sep as slash
 
 from PIL import Image as Im
 from PIL import ImageFile
@@ -9,8 +10,6 @@ import select_tiles
 from extras import extrasUtil
 
 # Helper Variables and Flags
-
-slash = "\\" if name == 'nt' else "/"
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 valid_extensions = [".jpg", ".png", ".dds", ".bmp"]
 lr_save_list = []
@@ -27,7 +26,7 @@ scale = 4
 hr_size = 128
 lr_size = hr_size // scale  # Don't you dare to put 0.
 random_lr_scaling = True  # May be somewhere in between soft and sharp, I am not sure
-lr_scaling = 2
+lr_scaling = 3
 
 # Misc
 
@@ -45,7 +44,7 @@ use_ram = True  # Very intensive, may be faster
 
 
 def get_filter():
-    scales = [1, 2, 4]
+    scales = [0, 3]
     if random_lr_scaling:
         return random.choice(scales)
     else:
