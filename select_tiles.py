@@ -8,6 +8,7 @@ from extras import extrasUtil
 
 # Helper Variables
 valid_extensions = [".jpg", ".png", ".dds", ".bmp", ".jpeg"]
+shifted_files = list()
 
 # Folders
 input_dir = ".{}output".format(slash)
@@ -32,14 +33,13 @@ def main():
     index_main = 1
     index_shift = 1
     shift_count = random.randint(80, 140)  # Ideally you want around 100 or so
-    shifted_images = []
     directory_list = [output_dir, val_lr_output_dir, val_hr_output_dir,
                       train_lr_output_dir, train_hr_output_dir]
     for directory in directory_list:
         if not path.isdir(directory):
             print("{} does not exist. Creating...".format(directory))
             makedirs(directory)
-
+    
     for root, dirs, files in walk(input_dir):
         for filename in files:
             if filename.endswith(tuple(valid_extensions)):
@@ -48,6 +48,27 @@ def main():
                 filepath = "{}{}{}".format(root, slash, filename)
                 copy_image(filename, filepath)
                 index_main += 1
+    
+    i = 0
+    for x in range(shift_count):
+        for root, dirs, files in walk(output_dir):
+            for dir in dirs:
+                if dir.endswith("hr"):
+                    directory = "{}{}{}".format(root, slash, dir)
+                    if "train" in directory:
+                        print(directory)
+                        file_shift = choice(listdir(directory))                        
+                        if file_shift not in shifted_files:
+                            source_hr = directory + slash + file_shift
+                            destination_hr = source_hr.replace("train","val")
+                            source_lr = source_hr.replace("hr", "lr")
+                            destination_lr = source_lr.replace("hr", "lr")
+                            move(source_hr, destination_hr.replace("train", "val"))
+                            move(source_lr, destination_lr.replace("train", "val"))
+                            shifted_files.append(file_shift)
+                        else:                            
+                            i+=1                            
+    print("Skipped {} / {} repeated files".format(i, x))
 
 
 if __name__ == "__main__":

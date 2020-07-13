@@ -107,4 +107,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-    select_tiles.main(False)
+    select_tiles.main()
