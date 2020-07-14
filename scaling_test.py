@@ -1,26 +1,31 @@
 import random
 import time
-from os import path, makedirs, listdir, name
+from os import path, makedirs, listdir, name, system
+from os import sep as slash
+import sys
 
 from PIL import Image as Im
 from PIL import ImageFile
 
 # Helper Variables and Flags
-
-slash = "\\" if name == 'nt' else "/"
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 valid_extensions = [".jpg", ".png", ".dds", ".bmp"]
-lr_save_list = []
-hr_save_list = []
+image_list = list()
+use_ram = True
 
 # Folders
+absolute_path = path.abspath(path.dirname(sys.argv[0]))
 
-input_folder = "." + slash + "input"
-output_folder = "." + slash + "scale_test_output"
+try:
+    input_folder = "{}{}input".format(absolute_path, slash)
+    output_folder = "{}{}scale_test_output".format(absolute_path, slash)
+except Exception as e:
+    print("Failed...")
+    raise e
 
 # Tile Settings
 
-scale = 8
+scale = 4
 
 """
  Use: 
@@ -32,6 +37,10 @@ scale = 8
  Image.HAMMING (5) # Looks natural?
 """
 
+
+def save():
+    [img[0].save(img[1], "PNG", icc_profile='') for img in image_list]
+    print("All saved.")
 
 def get_random_number(start, end):
     # Use time as a seed, makes it more randomized
@@ -65,7 +74,10 @@ def process_image(image, filename):
             imagefile_path = "{}{}scaling_{}.png".format(output_dir, filename, filter_name)
             # print((image.width // scale, image.height // scale))
             image_copy = image.resize((image.width // scale, image.height // scale), x)
-            image_copy.save(imagefile_path, "PNG", icc_profile='')
+            if use_ram:
+                image_list.append([image_copy, imagefile_path])
+            else:
+                image_copy.save(imagefile_path, "PNG", icc_profile='')
 
 
 def main():
@@ -79,9 +91,10 @@ def main():
                 if picture.mode != "RGB":
                     picture = picture.convert(mode="RGB")
                     rgb_index += 1
-                process_image(picture, filename)
+                process_image(picture, filename)                
                 picture.close()
     print("{} pictures were converted to RGB.".format(rgb_index))
+    save()
 
 
 if __name__ == "__main__":
