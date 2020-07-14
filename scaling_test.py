@@ -18,7 +18,7 @@ absolute_path = path.abspath(path.dirname(sys.argv[0]))
 
 try:
     input_folder = "{}{}input".format(absolute_path, slash)
-    output_folder = "{}{}scale_test_output.format(absolute_path, slash)
+    output_folder = "{}{}scale_test_output".format(absolute_path, slash)
 except Exception as e:
     print("Failed...")
     raise e
