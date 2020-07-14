@@ -15,16 +15,17 @@ use_ram = True
 
 # Folders
 absolute_path = path.abspath(path.dirname(sys.argv[0]))
+
 try:
     input_folder = "{}{}input".format(absolute_path, slash)
-    output_folder = input_folder.replace("input", "output_test")
+    output_folder = "{}{}scale_test_output.format(absolute_path, slash)
 except Exception as e:
     print("Failed...")
     raise e
 
 # Tile Settings
 
-scale = 2
+scale = 4
 
 """
  Use: 
