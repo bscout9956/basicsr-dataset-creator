@@ -30,7 +30,6 @@ A set of scripts that split images into squares for BasicSR model training.
   6. Run on CMD or Terminal (Linux):
     `python prepareDataset.py`
       - You may want to open the script in a software like Notepad++ to edit its settings...
-      - If you plan to train a 1x Model, go with `prepare_dataset_1x.py`, there are specific changes that make it faster than the regular script.
   7. Check for the results inside the datasets folder once the script finishes running...
   8. Go to the root of your clone BasicSR folder
   9. Head to ../BasicSR/codes/options/train/
@@ -79,7 +78,7 @@ A set of scripts that split images into squares for BasicSR model training.
     - Lower the batch_size, it may cause training to be slower however.
     - Lower the HR resolution **dataset change required**.
     - Other solutions for advanced users below.    
-  - Training 1x Models are possible but only on the old arch. Use the 1x script as it's faster.
+  - Training 1x Models are possible but only on the old arch.
   - Dataset Name and Validation Name in the YML are irrelevant.
   - PSNR is good when higher (25-30 avg). LPIPS is good when lower (<0.1 avg). SSIM is good when higher. (depends) 
   - You can find additional help on Reddit at https://www.reddit.com/r/GameUpscale/ and its Discord Server (I'm there ;)).
