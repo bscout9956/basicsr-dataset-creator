@@ -87,6 +87,7 @@ def main():
         for valid_extension in valid_extensions:
             if filename.endswith(valid_extension):
                 pic_path = input_folder + slash + filename
+                filename = filename.replace(valid_extension, "")
                 picture = Im.open(pic_path, "r")
                 if picture.mode != "RGB":
                     picture = picture.convert(mode="RGB")
