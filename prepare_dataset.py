@@ -78,8 +78,8 @@ def process_image(image, filename):
                     image_lr = image_copy
                 for ext in valid_extensions:
                     filename = filename.replace(ext, "")
-                lr_filepath = "{}{}{}tile_{:08d}.png".format(lr_output_dir, slash, filename, tile_index)
-                hr_filepath = "{}{}{}tile_{:08d}.png".format(hr_output_dir, slash, filename, tile_index)
+                lr_filepath = "{}{}{}_tile_{:08d}.png".format(lr_output_dir, slash, filename, tile_index)
+                hr_filepath = "{}{}{}_tile_{:08d}.png".format(hr_output_dir, slash, filename, tile_index)
                 if use_ram:
                     lr_save_list.append([image_lr, lr_filepath])
                     hr_save_list.append([image_hr, hr_filepath])
