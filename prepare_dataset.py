@@ -13,9 +13,9 @@ from extras import extrasUtil
 
 # Helper Variables and Flags
 ImageFile.LOAD_TRUNCATED_IMAGES = True
-valid_extensions = [".jpg", ".png", ".dds", ".bmp"]
-lr_save_list = []
-hr_save_list = []
+valid_extensions = (".jpg", ".png", ".dds", ".bmp")
+lr_save_list = list()
+hr_save_list = list()
 
 # Folders
 
@@ -25,7 +25,7 @@ output_folder = ".{0}output".format(slash)
 # Tile Settings
 
 scale = 4
-hr_size = 128
+hr_size = 64
 lr_size = hr_size // scale  # Don't you dare to put 0.
 random_lr_scaling = True  # May be somewhere in between soft and sharp, I am not sure
 lr_scaling = 3
@@ -99,7 +99,7 @@ def main():
     index = 1
     time_var = time.time()
     for filename in listdir(input_folder):
-        if filename.endswith(tuple(valid_extensions)):
+        if filename.endswith(valid_extensions):
             print("Splitting picture {} / {} of {}".format(filename, index, file_count))
             pic_path = "{}{}{}".format(input_folder, slash, filename)
             with Im.open(pic_path, "r") as picture:
