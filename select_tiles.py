@@ -55,16 +55,22 @@ def main():
             for dir in dirs:
                 if dir.endswith("hr"):
                     directory = "{}{}{}".format(root, slash, dir)
-                    if "train" in directory:
-                        print(directory)
-                        file_shift = choice(listdir(directory))                        
+                    if "train" in directory:                        
+                        file_shift = choice(listdir(directory))
+                        print("Shifting tile {}".format(file_shift))                   
                         if file_shift not in shifted_files:
                             source_hr = directory + slash + file_shift
                             destination_hr = source_hr.replace("train","val")
                             source_lr = source_hr.replace("hr", "lr")
                             destination_lr = source_lr.replace("hr", "lr")
-                            move(source_hr, destination_hr.replace("train", "val"))
-                            move(source_lr, destination_lr.replace("train", "val"))
+                            try:
+                                copyfile(source_hr, destination_hr.replace("train", "val"))
+                            except FileNotFoundError as f: # Stupid bug
+                                print("File {} was not found".format(f))                                
+                            try:
+                                copyfile(source_lr, destination_lr.replace("train", "val"))
+                            except FileNotFoundError as f: # Stupid bug
+                                print("File {} was not found".format(f))
                             shifted_files.append(file_shift)
                         else:                            
                             i+=1                            
