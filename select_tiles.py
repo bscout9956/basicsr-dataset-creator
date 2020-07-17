@@ -44,7 +44,7 @@ def main():
         for filename in files:
             if filename.endswith(tuple(valid_extensions)):
                 if index_main % 100 == 0:  # reduce the number of prints, goes faster =p
-                    print("Copying training tile {} of {}...".format(index_main, file_count))
+                    print("Copying training tile {} of {} | {:.2f}%".format(index_main, file_count, (index_main / file_count) * 100))
                 filepath = "{}{}{}".format(root, slash, filename)
                 copy_image(filename, filepath)
                 index_main += 1
