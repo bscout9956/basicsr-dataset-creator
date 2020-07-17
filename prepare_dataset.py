@@ -27,14 +27,14 @@ output_folder = ".{0}output".format(slash)
 scale = 4
 hr_size = 128
 lr_size = hr_size // scale  # Don't you dare to put 0.
-random_lr_scaling = True  # May be somewhere in between soft and sharp, I am not sure
+random_lr_scaling = False  # May be somewhere in between soft and sharp, I am not sure
 lr_scaling = 3
 pre_scale_filter = 3
 
 # Misc
 
-use_ram = True  # Very intensive, may be faster
-pre_scale = True # Pre scale images
+use_ram = False  # Very intensive, may be faster
+pre_scale = False # Pre scale images
 
 """
  Use: 
@@ -55,7 +55,7 @@ def get_filter():
         return lr_scaling
 
 
-def process_image(image, filename):
+def process_image(image, filename, file_count):
     tile_index = 0
     scale_filter = get_filter
     output_dir = "{}{}".format(output_folder, slash)
@@ -82,7 +82,7 @@ def process_image(image, filename):
                     filename = filename.replace(ext, "")
                 lr_filepath = "{}{}{}_tile_{:08d}.png".format(lr_output_dir, slash, filename, tile_index)
                 hr_filepath = "{}{}{}_tile_{:08d}.png".format(hr_output_dir, slash, filename, tile_index)
-                if use_ram:
+                if use_ram and file_count < 2500: # Otherwise it might go to shit
                     lr_save_list.append([image_lr, lr_filepath])
                     hr_save_list.append([image_hr, hr_filepath])
                 else:
@@ -110,7 +110,7 @@ def main():
                     rgb_index += 1
                 if pre_scale:
                     picture = picture.resize((picture.width // 2, picture.height // 2), pre_scale_filter)
-                process_image(picture, filename)
+                process_image(picture, filename, file_count)
             index += 1
     if use_ram:
         extrasUtil.save(lr_save_list, hr_save_list)
