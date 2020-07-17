@@ -25,14 +25,16 @@ output_folder = ".{0}output".format(slash)
 # Tile Settings
 
 scale = 4
-hr_size = 64
+hr_size = 128
 lr_size = hr_size // scale  # Don't you dare to put 0.
 random_lr_scaling = True  # May be somewhere in between soft and sharp, I am not sure
 lr_scaling = 3
+pre_scale_filter = 3
 
 # Misc
 
 use_ram = True  # Very intensive, may be faster
+pre_scale = True # Pre scale images
 
 """
  Use: 
@@ -106,6 +108,8 @@ def main():
                 if picture.mode != "RGB":
                     picture = picture.convert(mode="RGB")
                     rgb_index += 1
+                if pre_scale:
+                    picture = picture.resize((picture.width // 2, picture.height // 2), pre_scale_filter)
                 process_image(picture, filename)
             index += 1
     if use_ram:
