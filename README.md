@@ -1,5 +1,5 @@
 # Image-Tiler
-A script prepares a dataset for BasicSR model training.
+A script that prepares a dataset for BasicSR model training.
 
 ## Requirements:
   - An NVIDIA GPU + CUDA 10 or 11 installed: https://developer.nvidia.com/cuda-toolkit
