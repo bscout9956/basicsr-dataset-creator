@@ -1,6 +1,8 @@
 from os import sep
+
 from PIL import Image as Im
 from PIL import ImageFile
+
 from utils import util
 
 # Helper Variables and Flags
@@ -74,40 +76,36 @@ def copy_train(target_folder, is_lr):
                 copyfile(file_path, target_path)
 
 
-def copy_val_hr(target_folder, vfl, uvfl):
+def copy_val(target_folder, vfl, uvfl, is_hr):
     from os import listdir
     from random import randint
 
     for file in listdir(input_folder):
         if file.endswith(valid_extensions):
-            file_path = "{0}{1}".format(input_folder, file)
-            target_path = "{0}{1}".format(target_folder, file)
-            vfl.append([file_path, target_path])
-
-    while len(uvfl) < 100:
-        random_pic = vfl[randint(0, len(vfl) - 1)]
-        if random_pic not in uvfl:
-            uvfl.append(random_pic)
-            image = Im.open(random_pic[0], "r")
-            image_copy = image
-            h_offset = divs_calc(image_copy)[0]
-            v_offset = divs_calc(image_copy)[1]
-            image_copy = image_copy.crop((h_offset, v_offset, h_offset + hr_size, v_offset + hr_size))
-            image_copy.save(random_pic[1], "PNG", icc_profile='')
-        else:
-            print("Skipping {}".format(random_pic[0]))
-
-
-def copy_val_lr(target_folder):
-    from os import listdir
-    for file in listdir(val_hr_folder):
-        if file.endswith(valid_extensions):
-            file_path = "{0}{1}".format(val_hr_folder, file)
-            target_path = "{0}{1}".format(target_folder, file)
-            image = Im.open(file_path)
-            image_copy = image
-            image_copy = image_copy.resize((image_copy.width // scale, image_copy.height // scale), get_filter())
-            image_copy.save(target_path, "PNG", icc_profile='')
+            if is_hr:
+                file_path = "{0}{1}".format(input_folder, file)
+                target_path = "{0}{1}".format(target_folder, file)
+                vfl.append([file_path, target_path])
+            else:
+                file_path = "{0}{1}".format(val_hr_folder, file)
+                target_path = "{0}{1}".format(target_folder, file)
+                image = Im.open(file_path)
+                image_copy = image
+                image_copy = image_copy.resize((image_copy.width // scale, image_copy.height // scale), get_filter())
+                image_copy.save(target_path, "PNG", icc_profile='')
+    if is_hr:
+        while len(uvfl) < 100:
+            random_pic = vfl[randint(0, len(vfl) - 1)]
+            if random_pic not in uvfl:
+                uvfl.append(random_pic)
+                image = Im.open(random_pic[0], "r")
+                image_copy = image
+                h_offset = divs_calc(image_copy)[0]
+                v_offset = divs_calc(image_copy)[1]
+                image_copy = image_copy.crop((h_offset, v_offset, h_offset + hr_size, v_offset + hr_size))
+                image_copy.save(random_pic[1], "PNG", icc_profile='')
+            else:
+                print("Skipping {}".format(random_pic[0]))
 
 
 def main():
@@ -118,9 +116,9 @@ def main():
     print("Copying and resizing train LR images...")
     copy_train(train_lr_folder, True)
     print("Copying and tiling validation HR images...")
-    copy_val_hr(val_hr_folder, val_file_list, used_vfl)
+    copy_val(val_hr_folder, val_file_list, used_vfl, True)
     print("Copying and tiling validation LR images...")
-    copy_val_lr(val_lr_folder)
+    copy_val(val_lr_folder, is_hr=False)
 
 
 if __name__ == "__main__":
