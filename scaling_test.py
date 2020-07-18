@@ -11,7 +11,7 @@ from PIL import ImageFile
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 valid_extensions = [".jpg", ".png", ".dds", ".bmp"]
 image_list = list()
-use_ram = True
+use_ram = False
 
 # Folders
 absolute_path = path.abspath(path.dirname(sys.argv[0]))

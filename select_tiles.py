@@ -33,6 +33,9 @@ def main():
     index_main = 1
     index_shift = 1
     shift_count = random.randint(80, 140)  # Ideally you want around 100 or so
+    #if file_count:
+    #    print("WARNING: You may not have enough tiles/images to make your dataset, those same images will be copied over to validation.")
+    #    time.sleep(1)
     directory_list = [output_dir, val_lr_output_dir, val_hr_output_dir,
                       train_lr_output_dir, train_hr_output_dir]
     for directory in directory_list:
@@ -44,7 +47,7 @@ def main():
         for filename in files:
             if filename.endswith(tuple(valid_extensions)):
                 if index_main % 100 == 0:  # reduce the number of prints, goes faster =p
-                    print("Copying training tile {} of {}...".format(index_main, file_count))
+                    print("Copying training tile/image {} of {} | {:.2f}%".format(index_main, file_count, (index_main / file_count) * 100))
                 filepath = "{}{}{}".format(root, slash, filename)
                 copy_image(filename, filepath)
                 index_main += 1

@@ -55,54 +55,44 @@ def get_filter():
         return lr_scaling
 
 
-def process_image(image, filename, file_count):
-    tile_index = 0
+def process_image(image, filename, file_count, pic_path):
+    image_index = 0
     scale_filter = get_filter
     output_dir = "{}{}".format(output_folder, slash)
-    lr_output_dir = "{}lr".format(output_dir)
-    hr_output_dir = "{}hr".format(output_dir)
-
-    h_divs = floor(image.width / hr_size)
-    v_divs = floor(image.height / hr_size)
+    lr_output_dir = "{}lr{}".format(output_dir, slash)
+    hr_output_dir = "{}hr{}".format(output_dir, slash)
 
     if not path.isdir(output_dir) or not path.isdir(lr_output_dir) or not path.isdir(hr_output_dir):
         makedirs(lr_output_dir)
         makedirs(hr_output_dir)
     else:
-        for i in range(v_divs):
-            for j in range(h_divs):
-                image_copy = image.crop(
-                    (hr_size * j, hr_size * i, hr_size * (j + 1), hr_size * (i + 1)))
-                image_hr = image_copy
-                if scale != 1:
-                    image_lr = image_copy.resize((lr_size, lr_size), scale_filter())
-                else:
-                    image_lr = image_copy
-                for ext in valid_extensions:
-                    filename = filename.replace(ext, "")
-                lr_filepath = "{}{}{}_tile_{:08d}.png".format(lr_output_dir, slash, filename, tile_index)
-                hr_filepath = "{}{}{}_tile_{:08d}.png".format(hr_output_dir, slash, filename, tile_index)
-                if use_ram and file_count < 2500: # Otherwise it might go to shit
-                    lr_save_list.append([image_lr, lr_filepath])
-                    hr_save_list.append([image_hr, hr_filepath])
-                else:
-                    image_lr.save(lr_filepath, "PNG", icc_profile='')
-                    if scale != 1:
-                        image_hr.save(hr_filepath, "PNG", icc_profile='')
-                    else:
-                        copyfile(hr_filepath, lr_filepath)
-                tile_index += 1
+        image_copy = image
+        if scale != 1:
+            image_lr = image_copy.resize((image_copy.width // scale,image_copy.height // scale), scale_filter())
+        else:
+            image_lr = image_copy
+        for ext in valid_extensions:
+            filename = filename.replace(ext, "")
+        lr_filepath = "{}{}.png".format(lr_output_dir, filename)
+        hr_filepath = "{}{}.png".format(hr_output_dir, filename)
+        if use_ram:
+            lr_save_list.append([image_lr, lr_filepath])
+            copyfile(pic_path, hr_filepath)
+        else:
+            image_lr.save(lr_filepath, "PNG", icc_profile='')
+            copyfile(pic_path, hr_filepath)
+        image_index += 1
 
 
 def main():
-    print("Splitting dataset pictures...")
+    print("Processing dataset pictures...")
     rgb_index = 0
     file_count = extrasUtil.check_file_count(input_folder)
     index = 1
     time_var = time.time()
     for filename in listdir(input_folder):
         if filename.endswith(valid_extensions):
-            print("Splitting picture {} / {} of {}".format(filename, index, file_count))
+            print("Processing picture {} / {} of {}".format(filename, index, file_count))
             pic_path = "{}{}{}".format(input_folder, slash, filename)
             with Im.open(pic_path, "r") as picture:
                 if picture.mode != "RGB":
@@ -110,7 +100,7 @@ def main():
                     rgb_index += 1
                 if pre_scale:
                     picture = picture.resize((picture.width // 2, picture.height // 2), pre_scale_filter)
-                process_image(picture, filename, file_count)
+                process_image(picture, filename, file_count, pic_path)
             index += 1
     if use_ram:
         extrasUtil.save(lr_save_list, hr_save_list)

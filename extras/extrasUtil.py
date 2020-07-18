@@ -6,11 +6,6 @@ def check_file_count(in_folder):
     return file_count
 
 
-def cleanup(save_list):
-    for img in save_list:
-        img[0].close()
-
-
 def save(lr_save_list, hr_save_list):
     import time
     save_start = int(time.time())
