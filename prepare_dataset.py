@@ -11,6 +11,7 @@ valid_extensions = (".jpg", ".png", ".dds", ".bmp", "tga")
 random_lr_scaling = True
 val_file_list = list()
 used_vfl = list()
+val_tile_count = 100  # Change this if you want less validation tiles
 
 # Folders
 input_folder = ".{0}input{0}".format(sep)
@@ -95,7 +96,7 @@ def copy_val(in_folder, target_folder, vfl, uvfl, is_hr):
                 image_copy.save(target_path, "PNG", icc_profile='')
 
     if is_hr:
-        while len(uvfl) < 100:
+        while len(uvfl) < val_tile_count:
             random_pic = vfl[randint(0, len(vfl) - 1)]
             if random_pic not in uvfl:
                 uvfl.append(random_pic)
