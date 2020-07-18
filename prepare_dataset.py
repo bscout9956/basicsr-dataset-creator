@@ -61,16 +61,17 @@ def copy_train(target_folder, is_lr):
     from os import listdir
     from shutil import copyfile
     for file in listdir(input_folder):
-        file_path = "{0}{1}".format(input_folder, file)
-        target_path = "{0}{1}".format(target_folder, file)
-        # print(file_path, target_path)
-        if is_lr and scale != 1:
-            image = Im.open(file_path)
-            image_copy = image
-            image_copy = image_copy.resize((image_copy.width // scale, image_copy.height // scale), get_filter())
-            image_copy.save(target_path, "PNG", icc_profile='')
-        else:
-            copyfile(file_path, target_path)
+        if file.endswith(valid_extensions):
+            file_path = "{0}{1}".format(input_folder, file)
+            target_path = "{0}{1}".format(target_folder, file)
+            # print(file_path, target_path)
+            if is_lr and scale != 1:
+                image = Im.open(file_path)
+                image_copy = image
+                image_copy = image_copy.resize((image_copy.width // scale, image_copy.height // scale), get_filter())
+                image_copy.save(target_path, "PNG", icc_profile='')
+            else:
+                copyfile(file_path, target_path)
 
 
 def copy_val_hr(target_folder, vfl, uvfl):
@@ -78,9 +79,10 @@ def copy_val_hr(target_folder, vfl, uvfl):
     from random import randint
 
     for file in listdir(input_folder):
-        file_path = "{0}{1}".format(input_folder, file)
-        target_path = "{0}{1}".format(target_folder, file)
-        vfl.append([file_path, target_path])
+        if file.endswith(valid_extensions):
+            file_path = "{0}{1}".format(input_folder, file)
+            target_path = "{0}{1}".format(target_folder, file)
+            vfl.append([file_path, target_path])
 
     while len(uvfl) < 100:
         random_pic = vfl[randint(0, len(vfl) - 1)]
@@ -99,12 +101,13 @@ def copy_val_hr(target_folder, vfl, uvfl):
 def copy_val_lr(target_folder):
     from os import listdir
     for file in listdir(val_hr_folder):
-        file_path = "{0}{1}".format(val_hr_folder, file)
-        target_path = "{0}{1}".format(target_folder, file)
-        image = Im.open(file_path)
-        image_copy = image
-        image_copy = image_copy.resize((image_copy.width // scale, image_copy.height // scale), get_filter())
-        image_copy.save(target_path, "PNG", icc_profile='')
+        if file.endswith(valid_extensions):
+            file_path = "{0}{1}".format(val_hr_folder, file)
+            target_path = "{0}{1}".format(target_folder, file)
+            image = Im.open(file_path)
+            image_copy = image
+            image_copy = image_copy.resize((image_copy.width // scale, image_copy.height // scale), get_filter())
+            image_copy.save(target_path, "PNG", icc_profile='')
 
 
 def main():
