@@ -29,7 +29,7 @@ folders_list = [input_folder, datasets_folder, dt_train_folder,
 # Scaling Parameters
 lr_scaling = 3
 scale = 4
-hr_size = 128
+val_tile_size = 128
 
 """
  Use: 
@@ -45,9 +45,9 @@ hr_size = 128
 def divs_calc(image):
     from math import floor
     from random import randint
-    h_divs = floor(image.width / hr_size)
-    v_divs = floor(image.height / hr_size)
-    return hr_size * randint(0, h_divs - 1), hr_size * randint(0, v_divs - 1)
+    h_divs = floor(image.width / val_tile_size)
+    v_divs = floor(image.height / val_tile_size)
+    return val_tile_size * randint(0, h_divs - 1), val_tile_size * randint(0, v_divs - 1)
 
 
 def get_filter():
@@ -102,7 +102,7 @@ def copy_val(target_folder, vfl, uvfl, is_hr):
                 image_copy = image
                 h_offset = divs_calc(image_copy)[0]
                 v_offset = divs_calc(image_copy)[1]
-                image_copy = image_copy.crop((h_offset, v_offset, h_offset + hr_size, v_offset + hr_size))
+                image_copy = image_copy.crop((h_offset, v_offset, h_offset + val_tile_size, v_offset + val_tile_size))
                 image_copy.save(random_pic[1], "PNG", icc_profile='')
             else:
                 print("Skipping {}".format(random_pic[0]))
