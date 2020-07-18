@@ -1,40 +1,35 @@
-import random
-import time
-from math import floor
-from os import path, makedirs, listdir, name
-from shutil import copyfile
-from os import sep as slash
+from os import sep
 
 from PIL import Image as Im
 from PIL import ImageFile
 
-import select_tiles
-from extras import extrasUtil
+from utils import util
 
 # Helper Variables and Flags
 ImageFile.LOAD_TRUNCATED_IMAGES = True
-valid_extensions = (".jpg", ".png", ".dds", ".bmp")
-lr_save_list = list()
-hr_save_list = list()
+valid_extensions = (".jpg", ".png", ".dds", ".bmp", "tga")
+random_lr_scaling = True
+val_file_list = list()
+used_vfl = list()
 
 # Folders
+input_folder = ".{0}input{0}".format(sep)
+datasets_folder = ".{0}datasets{0}".format(sep)
+dt_train_folder = "{}train{}".format(datasets_folder, sep)
+dt_val_folder = "{}val{}".format(datasets_folder, sep)
+train_lr_folder = "{}lr{}".format(dt_train_folder, sep)
+train_hr_folder = "{}hr{}".format(dt_train_folder, sep)
+val_lr_folder = "{}lr{}".format(dt_val_folder, sep)
+val_hr_folder = "{}hr{}".format(dt_val_folder, sep)
 
-input_folder = ".{0}input".format(slash)
-output_folder = ".{0}output".format(slash)
+folders_list = [input_folder, datasets_folder, dt_train_folder,
+                dt_val_folder, train_hr_folder, train_lr_folder,
+                val_hr_folder, val_lr_folder]
 
-# Tile Settings
-
-scale = 4
-hr_size = 128
-lr_size = hr_size // scale  # Don't you dare to put 0.
-random_lr_scaling = False  # May be somewhere in between soft and sharp, I am not sure
+# Scaling Parameters
 lr_scaling = 3
-pre_scale_filter = 3
-
-# Misc
-
-use_ram = False  # Very intensive, may be faster
-pre_scale = False # Pre scale images
+scale = 4
+val_tile_size = 128
 
 """
  Use: 
@@ -47,77 +42,85 @@ pre_scale = False # Pre scale images
 """
 
 
+def divs_calc(image):
+    from math import floor
+    from random import randint
+    h_divs = floor(image.width / val_tile_size)
+    v_divs = floor(image.height / val_tile_size)
+    # - 1 so it's not close to the edges? It doesn't matter too much, it's just for validation
+    # floor should have taken care of that weirdly...
+    return val_tile_size * randint(0, h_divs - 1), val_tile_size * randint(0, v_divs - 1)
+
+
 def get_filter():
+    from random import choice
     scales = [0, 3]
     if random_lr_scaling:
-        return random.choice(scales)
+        return choice(scales)
     else:
         return lr_scaling
 
 
-def process_image(image, filename, file_count):
-    tile_index = 0
-    scale_filter = get_filter
-    output_dir = "{}{}".format(output_folder, slash)
-    lr_output_dir = "{}lr".format(output_dir)
-    hr_output_dir = "{}hr".format(output_dir)
+def copy_train(target_folder, is_lr):
+    from os import listdir
+    from shutil import copyfile
+    for file in listdir(input_folder):
+        if file.endswith(valid_extensions):
+            file_path = "{0}{1}".format(input_folder, file)
+            target_path = "{0}{1}".format(target_folder, file)
+            # print(file_path, target_path)
+            if is_lr and scale != 1:
+                image = Im.open(file_path)
+                image_copy = image
+                image_copy = image_copy.resize((image_copy.width // scale, image_copy.height // scale), get_filter())
+                image_copy.save(target_path, "PNG", icc_profile='')
+            else:
+                copyfile(file_path, target_path)
 
-    h_divs = floor(image.width / hr_size)
-    v_divs = floor(image.height / hr_size)
 
-    if not path.isdir(output_dir) or not path.isdir(lr_output_dir) or not path.isdir(hr_output_dir):
-        makedirs(lr_output_dir)
-        makedirs(hr_output_dir)
-    else:
-        for i in range(v_divs):
-            for j in range(h_divs):
-                image_copy = image.crop(
-                    (hr_size * j, hr_size * i, hr_size * (j + 1), hr_size * (i + 1)))
-                image_hr = image_copy
-                if scale != 1:
-                    image_lr = image_copy.resize((lr_size, lr_size), scale_filter())
-                else:
-                    image_lr = image_copy
-                for ext in valid_extensions:
-                    filename = filename.replace(ext, "")
-                lr_filepath = "{}{}{}_tile_{:08d}.png".format(lr_output_dir, slash, filename, tile_index)
-                hr_filepath = "{}{}{}_tile_{:08d}.png".format(hr_output_dir, slash, filename, tile_index)
-                if use_ram and file_count < 2500: # Otherwise it might go to shit
-                    lr_save_list.append([image_lr, lr_filepath])
-                    hr_save_list.append([image_hr, hr_filepath])
-                else:
-                    image_lr.save(lr_filepath, "PNG", icc_profile='')
-                    if scale != 1:
-                        image_hr.save(hr_filepath, "PNG", icc_profile='')
-                    else:
-                        copyfile(hr_filepath, lr_filepath)
-                tile_index += 1
+def copy_val(in_folder, target_folder, vfl, uvfl, is_hr):
+    from os import listdir
+    from random import randint
+
+    for file in listdir(in_folder):
+        if file.endswith(valid_extensions):
+            file_path = "{0}{1}".format(in_folder, file)
+            target_path = "{0}{1}".format(target_folder, file)
+            if is_hr:
+                vfl.append([file_path, target_path])
+            else:
+                image = Im.open(file_path)
+                image_copy = image
+                image_copy = image_copy.resize((image_copy.width // scale, image_copy.height // scale), get_filter())
+                image_copy.save(target_path, "PNG", icc_profile='')
+
+    if is_hr:
+        while len(uvfl) < 100:
+            random_pic = vfl[randint(0, len(vfl) - 1)]
+            if random_pic not in uvfl:
+                uvfl.append(random_pic)
+                image = Im.open(random_pic[0], "r")
+                image_copy = image
+                h_offset = divs_calc(image_copy)[0]
+                v_offset = divs_calc(image_copy)[1]
+                image_copy = image_copy.crop((h_offset, v_offset, h_offset + val_tile_size, v_offset + val_tile_size))
+                image_copy.save(random_pic[1], "PNG", icc_profile='')
+            else:
+                print("Skipping {}".format(random_pic[0]))
 
 
 def main():
-    print("Splitting dataset pictures...")
-    rgb_index = 0
-    file_count = extrasUtil.check_file_count(input_folder)
-    index = 1
-    time_var = time.time()
-    for filename in listdir(input_folder):
-        if filename.endswith(valid_extensions):
-            print("Splitting picture {} / {} of {}".format(filename, index, file_count))
-            pic_path = "{}{}{}".format(input_folder, slash, filename)
-            with Im.open(pic_path, "r") as picture:
-                if picture.mode != "RGB":
-                    picture = picture.convert(mode="RGB")
-                    rgb_index += 1
-                if pre_scale:
-                    picture = picture.resize((picture.width // 2, picture.height // 2), pre_scale_filter)
-                process_image(picture, filename, file_count)
-            index += 1
-    if use_ram:
-        extrasUtil.save(lr_save_list, hr_save_list)
-    print("Taken {} seconds approximately".format((time.time() - time_var) // 1))
-    print("{} pictures were converted to RGB.".format(rgb_index))
+    print("Verifying directories...")
+    util.check_directories(folders_list)
+    print("Copying train HR images...")
+    copy_train(train_hr_folder, False)
+    print("Copying and resizing train LR images...")
+    copy_train(train_lr_folder, True)
+    print("Copying and tiling validation HR images...")
+    copy_val(input_folder, val_hr_folder, val_file_list, used_vfl, True)
+    print("Copying and tiling validation LR images...")
+    copy_val(val_hr_folder, val_lr_folder, None, None, False)
 
 
 if __name__ == "__main__":
     main()
-    select_tiles.main()
