@@ -47,14 +47,16 @@ def divs_calc(image):
     from random import randint
     h_divs = floor(image.width / val_tile_size)
     v_divs = floor(image.height / val_tile_size)
+    # - 1 so it's not close to the edges? It doesn't matter too much, it's just for validation
+    # Floor should have taken care of that weirdly...
     return val_tile_size * randint(0, h_divs - 1), val_tile_size * randint(0, v_divs - 1)
 
 
 def get_filter():
-    import random
+    from random import choice
     scales = [0, 3]
     if random_lr_scaling:
-        return random.choice(scales)
+        return choice(scales)
     else:
         return lr_scaling
 
