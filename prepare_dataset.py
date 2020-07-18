@@ -48,7 +48,7 @@ def divs_calc(image):
     h_divs = floor(image.width / val_tile_size)
     v_divs = floor(image.height / val_tile_size)
     # - 1 so it's not close to the edges? It doesn't matter too much, it's just for validation
-    # Floor should have taken care of that weirdly...
+    # floor should have taken care of that weirdly...
     return val_tile_size * randint(0, h_divs - 1), val_tile_size * randint(0, v_divs - 1)
 
 
@@ -78,23 +78,22 @@ def copy_train(target_folder, is_lr):
                 copyfile(file_path, target_path)
 
 
-def copy_val(target_folder, vfl, uvfl, is_hr):
+def copy_val(in_folder, target_folder, vfl, uvfl, is_hr):
     from os import listdir
     from random import randint
 
-    for file in listdir(input_folder):
+    for file in listdir(in_folder):
         if file.endswith(valid_extensions):
+            file_path = "{0}{1}".format(in_folder, file)
+            target_path = "{0}{1}".format(target_folder, file)
             if is_hr:
-                file_path = "{0}{1}".format(input_folder, file)
-                target_path = "{0}{1}".format(target_folder, file)
                 vfl.append([file_path, target_path])
             else:
-                file_path = "{0}{1}".format(val_hr_folder, file)
-                target_path = "{0}{1}".format(target_folder, file)
                 image = Im.open(file_path)
                 image_copy = image
                 image_copy = image_copy.resize((image_copy.width // scale, image_copy.height // scale), get_filter())
                 image_copy.save(target_path, "PNG", icc_profile='')
+
     if is_hr:
         while len(uvfl) < 100:
             random_pic = vfl[randint(0, len(vfl) - 1)]
@@ -118,9 +117,9 @@ def main():
     print("Copying and resizing train LR images...")
     copy_train(train_lr_folder, True)
     print("Copying and tiling validation HR images...")
-    copy_val(val_hr_folder, val_file_list, used_vfl, True)
+    copy_val(input_folder, val_hr_folder, val_file_list, used_vfl, True)
     print("Copying and tiling validation LR images...")
-    copy_val(val_lr_folder, is_hr=False)
+    copy_val(val_hr_folder, val_lr_folder, None, None, False)
 
 
 if __name__ == "__main__":
