@@ -1,13 +1,12 @@
 from os import sep
 
-from PIL import Image as Im
 from PIL import ImageFile
 
 from utils import util
 
 # Helper Variables and Flags
 ImageFile.LOAD_TRUNCATED_IMAGES = True
-valid_extensions = (".jpg", ".png", ".dds", ".bmp", "tga")
+valid_extensions = (".jpg", ".png", ".dds", ".bmp", ".tga")
 random_lr_scaling = True
 val_file_list = list()
 used_vfl = list()
@@ -46,16 +45,19 @@ val_tile_size = 128
 def divs_calc(image):
     from math import floor
     from random import randint
-    h_divs = floor(image.width / val_tile_size)
-    v_divs = floor(image.height / val_tile_size)
-    # - 1 so it's not close to the edges? It doesn't matter too much, it's just for validation
-    # floor should have taken care of that weirdly...
-    return val_tile_size * randint(0, h_divs - 1), val_tile_size * randint(0, v_divs - 1)
+    try:
+        h_divs = floor(image.width / val_tile_size)
+        v_divs = floor(image.height / val_tile_size)
+        # - 1 so it's not close to the edges? It doesn't matter too much, it's just for validation
+        # floor should have taken care of that weirdly...
+        return val_tile_size * randint(0, h_divs - 1), val_tile_size * randint(0, v_divs - 1)
+    except:  # Some failure cases, rare.
+        return 0, 0
 
 
 def get_filter():
     from random import choice
-    scales = [0, 3]
+    scales = [0, 4]
     if random_lr_scaling:
         return choice(scales)
     else:
@@ -63,6 +65,7 @@ def get_filter():
 
 
 def copy_train(target_folder, is_lr):
+    from PIL import Image as Im
     from os import listdir
     from shutil import copyfile
     for file in listdir(input_folder):
@@ -74,12 +77,15 @@ def copy_train(target_folder, is_lr):
                 image = Im.open(file_path)
                 image_copy = image
                 image_copy = image_copy.resize((image_copy.width // scale, image_copy.height // scale), get_filter())
+                for ext in valid_extensions:
+                    target_path = target_path.replace(ext, ".png")
                 image_copy.save(target_path, "PNG", icc_profile='')
             else:
                 copyfile(file_path, target_path)
 
 
 def copy_val(in_folder, target_folder, vfl, uvfl, is_hr):
+    from PIL import Image as Im
     from os import listdir
     from random import randint
 
@@ -93,6 +99,8 @@ def copy_val(in_folder, target_folder, vfl, uvfl, is_hr):
                 image = Im.open(file_path)
                 image_copy = image
                 image_copy = image_copy.resize((image_copy.width // scale, image_copy.height // scale), get_filter())
+                for ext in valid_extensions:
+                    target_path = target_path.replace(ext, ".png")
                 image_copy.save(target_path, "PNG", icc_profile='')
 
     if is_hr:
@@ -105,6 +113,8 @@ def copy_val(in_folder, target_folder, vfl, uvfl, is_hr):
                 h_offset = divs_calc(image_copy)[0]
                 v_offset = divs_calc(image_copy)[1]
                 image_copy = image_copy.crop((h_offset, v_offset, h_offset + val_tile_size, v_offset + val_tile_size))
+                for ext in valid_extensions:
+                    random_pic[1] = random_pic[1].replace(ext, ".png")
                 image_copy.save(random_pic[1], "PNG", icc_profile='')
             else:
                 print("Skipping {}".format(random_pic[0]))
