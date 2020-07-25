@@ -136,6 +136,7 @@ output/*
 datasets/*
 dataset/*
 scale_test_output/*
+harvey_output/*
 
 # VS Code
 .vscode
