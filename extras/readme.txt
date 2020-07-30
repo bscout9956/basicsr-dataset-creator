@@ -1,3 +1,5 @@
+DISCLAIMER: I offer no "support" for these
+
 Use banding prepare if you want to make a banding dataset
 Use bicubic prepare... for... uh
 Use blur prepare if you want to make a deblurring dataset
