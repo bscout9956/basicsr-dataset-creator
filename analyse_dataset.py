@@ -37,9 +37,10 @@ def main():
 
             for x in range(image.width):
                 for y in range(image.height):
-                    temp_red.append(image_data[x, y][0])
-                    temp_green.append(image_data[x, y][1])
-                    temp_blue.append(image_data[x, y][2])
+                    red, green, blue = image_data[x, y][0], image_data[x, y][1], image_data[x, y][2]
+                    temp_red.append(red)
+                    temp_green.append(green)
+                    temp_blue.append(blue)
 
             avg_colors = round(avg_color(temp_red)), round(avg_color(temp_green)), round(avg_color(temp_blue))
             red_values.append(avg_colors[0])
@@ -48,11 +49,15 @@ def main():
         idx += 1
 
     # axis.plot3D(red_values, green_values, blue_values)
-    axis.scatter(red_values, green_values, blue_values, color="black")
+    print("\nPlotting...")
+    try:
+        axis.scatter(red_values, green_values, blue_values, color="black")
+    except Exception as e:
+        pass
     axis.set_xlabel("Red")
     axis.set_ylabel("Green")
     axis.set_zlabel("Blue")
-
+    print("Done.")
     plt.show()
 
 
