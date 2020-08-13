@@ -2,7 +2,7 @@ import os
 import cv2
 from os import sep
 
-import extrasUtil # PyCharm no like
+from utils import util # PyCharm no like
 
 # Helper variables
 valid_extensions = [".jpg", ".png", ".dds", ".bmp"]
@@ -18,7 +18,7 @@ def makedirs_list(folders):
 
 
 def process(input_folder):
-    file_count = extrasUtil.check_file_count(input_folder)
+    file_count = util.check_file_count(input_folder)
     index = 1
     failed_files = 0
     skipped_files = 0
