@@ -2,7 +2,7 @@ import os
 import cv2
 from os import sep
 
-import extrasUtil
+import extrasUtil # PyCharm no like
 
 # Helper variables
 valid_extensions = [".jpg", ".png", ".dds", ".bmp"]

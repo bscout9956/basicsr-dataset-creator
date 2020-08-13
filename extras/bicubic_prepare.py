@@ -1,8 +1,7 @@
 import os
 
 from PIL import Image as Im
-
-from extras import extrasUtil
+from utils import util
 
 # Helper Variables
 slash = "\\" if os.name == 'nt' else "/"
@@ -13,7 +12,7 @@ valid_extensions = [".jpg", ".png", ".dds", ".bmp"]
 
 
 def process(input_folder):
-    file_count = extrasUtil.check_file_count(input_folder)
+    file_count = util.check_file_count(input_folder)
     index = 1
     failed_files = 0
     skipped_files = 0

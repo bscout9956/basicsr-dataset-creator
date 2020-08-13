@@ -4,7 +4,7 @@ import time
 
 from PIL import Image as Im
 
-from extras import extrasUtil
+from utils import util
 
 slash = "\\" if os.name == 'nt' else "/"
 
@@ -28,7 +28,7 @@ def get_random_subsampling():
 
 
 def process(input_folder):
-    file_count = extrasUtil.check_file_count(input_folder)
+    file_count = util.check_file_count(input_folder)
     index = 1
     rgb_index = 0
     failed_files = 0
