@@ -35,9 +35,9 @@ def process(input_folder):
                     b, g, r = cv2.split(picture)
                     makedirs_list(("{0}_R\\".format(output_path), "{0}_G\\".format(output_path),
                                    "{0}_B\\".format(output_path)))
-                    cv2.imwrite("{}_R\\{}.png".format(output_path, filename), r)
-                    cv2.imwrite("{}_G\\{}.png".format(output_path, filename), g)
-                    cv2.imwrite("{}_B\\{}.png".format(output_path, filename), b)
+                    cv2.imwrite("{}_R\\{}".format(output_path, filename), r)
+                    cv2.imwrite("{}_G\\{}".format(output_path, filename), g)
+                    cv2.imwrite("{}_B\\{}".format(output_path, filename), b)
                     index += 1
                 except:
                     failed_files += 1

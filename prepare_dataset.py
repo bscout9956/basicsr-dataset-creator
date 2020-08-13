@@ -11,6 +11,7 @@ random_lr_scaling = True
 val_file_list = list()
 used_vfl = list()
 val_tile_count = 100  # Change this if you want less validation tiles
+fix_div_calc = True
 
 # Folders
 input_folder = ".{0}input{0}".format(sep)
@@ -42,7 +43,7 @@ val_tile_size = 128
 """
 
 
-def divs_calc(image):
+def divs_calc(image, fixed):
     from math import floor
     from random import randint
     try:
@@ -50,7 +51,10 @@ def divs_calc(image):
         v_divs = floor(image.height / val_tile_size)
         # - 1 so it's not close to the edges? It doesn't matter too much, it's just for validation
         # floor should have taken care of that weirdly...
-        return val_tile_size * randint(0, h_divs - 1), val_tile_size * randint(0, v_divs - 1)
+        if fixed:
+            return val_tile_size * (h_divs / 2), val_tile_size * (v_divs / 2) # Middle?
+        else:
+            return val_tile_size * randint(0, h_divs - 1), val_tile_size * randint(0, v_divs - 1)        
     except:  # Some failure cases, rare.
         return 0, 0
 
@@ -110,8 +114,8 @@ def copy_val(in_folder, target_folder, vfl, uvfl, is_hr):
                 uvfl.append(random_pic)
                 image = Im.open(random_pic[0], "r")
                 image_copy = image
-                h_offset = divs_calc(image_copy)[0]
-                v_offset = divs_calc(image_copy)[1]
+                h_offset = divs_calc(image_copy, fix_div_calc)[0]
+                v_offset = divs_calc(image_copy, fix_div_calc)[1]
                 image_copy = image_copy.crop((h_offset, v_offset, h_offset + val_tile_size, v_offset + val_tile_size))
                 for ext in valid_extensions:
                     random_pic[1] = random_pic[1].replace(ext, ".png")
