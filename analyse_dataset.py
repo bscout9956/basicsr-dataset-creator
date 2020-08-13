@@ -3,7 +3,7 @@ from mpl_toolkits.mplot3d import axes3d  # unused?
 import os
 from os import sep
 from PIL import Image as Im
-from extras import extrasUtil
+from utils import util
 
 fig = plt.figure()
 axis = plt.axes(projection='3d')
@@ -23,7 +23,7 @@ def avg_color(color_values):
 
 
 def main():
-    idx_limit = extrasUtil.check_file_count(input_folder)
+    idx_limit = util.check_file_count(input_folder)
     idx = 1
     for file in os.listdir(input_folder):
         print("Processing file {} | {} of {} | {:.2f} percent".format(file, idx, idx_limit, (idx / idx_limit) * 100))
