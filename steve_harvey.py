@@ -18,7 +18,7 @@ for file in os.listdir(input_folder):
     with Im.open(path_to_file, "r") as image:
         image_copy = image
         idx = 0
-        while image_copy.width > 128 and image_copy.height > 128:
+        while image_copy.width > 128 and image_copy.height > 128:            
             image_copy = image_copy.resize((image_copy.width // 2, image_copy.height // 2), 3)  # 3 means Bicubic
             image_copy.save("{}{}_{}.png".format(output_folder, file, str(idx)), "PNG", icc_profile='')
             idx += 1
